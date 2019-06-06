@@ -1,0 +1,88 @@
+chap three
+1. Single Threaded Execution （临界区）
+
+2. code
+public class Main {
+    public static void main(String[] args) {
+
+        System.out.println("Testing Gate, hit CTRL+C to exit.");
+        Gate gate = new Gate();
+//        new UserThread(new Gate(),"Alice", "Alaska").start();
+//        new UserThread(new Gate(), "Bobby", "Brazil").start();
+//        new UserThread(new Gate(), "Chris", "Canada").start();
+
+        new UserThread(gate,"Ali", "Ala").start();
+        new UserThread(gate, "Boy", "Brl").start();
+        new UserThread(gate, "Chs", "Ca").start();
+    }
+}
+
+// pass(), toString(),check()
+// 哪个可以不需要加 synchronized？
+// public private会影响到 synchronized
+
+    /*
+    * 可能出现死锁的情况：
+    * 1. 共享资源有多个线程参与
+    * 2. 线程锁定一个资源后，还未释放，就去锁定另外一个资源
+    * 3. 获取共享资源的线程顺序不固定
+    * */
+    
+//这里的synchronized 为什么不会与调用的地方死锁？因为只有一个线程可以进来？
+
+
+public class Gate {
+    private int counter = 0;
+    private String name = "Nobody";
+    private String address = "Nowhere";
+
+    public synchronized void pass(String name, String address){
+        this.counter++;
+        this.name = name;
+        this.address = address;
+
+        check();
+    }
+
+    @Override
+     public synchronized String toString() {
+    //public String toString() {
+        return "Gate{" +
+                "counter=" + counter +
+                ", name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
+    private void check() {
+        if (name.charAt(0) != address.charAt(0)) {
+            System.out.println("***** BROKEN ***** " + toString());
+        }
+    }
+}
+
+public class UserThread extends Thread{
+    private final Gate gate;
+    private final String myname;
+    private final String myaddress;
+
+    public UserThread(Gate gate, String myname, String myaddress) {
+        this.gate = gate;
+        this.myname = myname;
+        this.myaddress = myaddress;
+    }
+
+    @Override
+    public void run() {
+        System.out.println(myname + " BEGIN");
+        while (true) {
+            gate.pass(myname, myaddress);
+        }
+    }
+}
+
+3. attention
+ 3.1 明确锁定对象是什么
+ 3.2 java 语言long,double 不是原子操作；
+ 	 java环境可能实现了上述操作的原子性 --参考JAVA内存模型的说法更准确
+     线程间共享long,double时，需要使用synchronized 或者 volatile

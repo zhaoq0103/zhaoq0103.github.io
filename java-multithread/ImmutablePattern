@@ -1,0 +1,56 @@
+1. final 类
+2. final 方法
+3. final 字段
+4. final 变量与参数
+
+5. code
+
+public final class Person { //不允许继承
+    private  final String name;//不允许修改
+    private  final String address;
+
+    public Person(String name, String address) {
+        this.name = name;
+        this.address = address;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "name='" + name + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+}
+
+public class PrintPersonThread extends Thread{
+    private Person person;
+
+    public PrintPersonThread(Person person) {
+        this.person = person;
+    }
+
+    @Override
+    public void run() {
+       while (true){
+           System.out.println(Thread.currentThread().getName() + " person " + person);
+       }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Person alice = new Person("alice", "alaska");
+        new PrintPersonThread(alice).start();
+        new PrintPersonThread(alice).start();
+        new PrintPersonThread(alice).start();
+    }
+}

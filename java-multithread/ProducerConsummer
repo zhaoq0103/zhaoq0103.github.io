@@ -1,0 +1,128 @@
+1. 生产者消费者模型和 中介者模式的区别
+2. wait 被 interrupt时， 会先获取锁定，然后再抛出 InterruptedException
+3. notify, notifyAll唤醒线程后，会前进到 wait的下一个语句 ， 所以wait一般用while来看住
+4. join和sleep一样，不需要获取线程的锁定
+5. isInterrupted 会返回中断状态
+6. interrupt 与 interrupted 方法
+
+public class Main {
+
+    public static void main(String[] args){
+        Table table = new Table(3);
+        new MakerThread("MakerThread 1", table, 342145).start();
+        new MakerThread("MakerThread 2", table, 342245).start();
+        new MakerThread("MakerThread 3", table, 348845).start();
+
+        new EaterThread("EaterThread 1", table, 432543).start();
+        new EaterThread("EaterThread 2", table, 467843).start();
+        new EaterThread("EaterThread 3", table, 432667).start();
+    }
+}
+
+
+public class Table {
+    private final String[] buffers;
+    private int curCount;
+    private int head;//where take cake
+    private int tail;//where put cake
+
+    public Table(int cnt) {
+        this.buffers = new String[cnt];
+        this.head = this.tail = this.curCount = 0;
+        System.out.println("buffers length:" + buffers.length);
+    }
+/**
+ * 循环链表都是这个套路吗？
+ *
+ *
+ * **/
+    public synchronized void put (String cake) throws InterruptedException{
+        System.out.println(Thread.currentThread().getName() + " prepare puts cake " + cake);
+        while(curCount >= buffers.length){//while 会阻挡程序向下执行，if不能
+            wait();
+        }
+
+        System.out.println(Thread.currentThread().getName() + " ############### puts cake success" + cake);
+
+        buffers[tail] = cake;
+        tail = (tail+1)%buffers.length;
+        /*
+        * 上述代码功能
+        * tail++;
+        * if(tail >= buffers.length){
+        *   tail = 0;
+        * }
+        *
+        * */
+        curCount++;
+        notifyAll();
+    }
+
+
+    public synchronized String take() throws InterruptedException{
+        while (0 >= curCount){//while 会阻挡程序向下执行，if不能
+            wait();
+        }
+
+        String cake = buffers[head];
+        head = (head+1)%buffers.length;
+        curCount--;
+        notifyAll();
+
+        System.out.println(Thread.currentThread().getName() + " ---------------------------------- takes cake " + cake);
+        return cake;
+    }
+}
+
+
+public class MakerThread extends Thread{
+    private final Random random;
+    private final Table table;
+    private  static long id = 1;
+
+    public MakerThread(String name, Table table, long seed) {
+        super(name);
+        this.random = new Random(seed);
+        this.table = table;
+    }
+
+    private static synchronized long nextID(){
+        return id++;
+    }
+
+    @Override
+    public void run() {
+        try{
+            while (true){
+                Thread.sleep(random.nextInt(1000));
+                String cake = " cake:" + nextID();
+                table.put(cake);
+            }
+        }catch (Exception e){
+
+        }
+    }
+}
+
+public class EaterThread extends Thread{
+    private final Random random;
+    private final Table table;
+
+    public EaterThread(String name, Table table, long seed) {
+        super(name);
+        this.random = new Random(seed);
+        this.table = table;
+    }
+
+    @Override
+    public void run() {
+        try{
+            while (true){
+                table.take();
+                Thread.sleep(random.nextInt(1000));
+            }
+        }catch (Exception e){
+
+        }
+    }
+}

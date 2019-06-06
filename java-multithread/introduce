@@ -1,0 +1,22 @@
+前言
+1. UML相关
+2. 数序图，时序图
+
+chap one
+1.concurrent 并发
+2.parallel   并行
+3.thread
+4.synchronized  
+5.synchronized 类方法//synchronized(Something.class)  
+  与synchronized 实例方法 //synchronized(this)
+6.wait set
+7.wait, notify,notifyAll是Object类的方法
+
+
+chap two
+1.
+
+
+
+
+

@@ -1,0 +1,117 @@
+    /*
+    * 可能出现死锁的情况：
+    * 1. 共享资源有多个线程参与
+    * 2. 线程锁定一个资源后，还未释放，就去锁定另外一个资源
+    * 3. 获取共享资源的线程顺序不固定
+    * */
+
+    1. wait() // 不浪费执行环境处理时间
+    2. yield() //浪费执行环境处理时间
+
+    public class Main {
+    static public void main(String[] args){
+        RequestQueue queue = new RequestQueue();
+        ClientThread client = new ClientThread(queue, "c", 1234564L);
+        ServerThread server = new ServerThread(queue, "s", 489156L);
+        client.start();
+        server.start();
+    }
+}
+
+
+public class Request {
+    private final String  name;
+
+    public Request(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "name='" + name + '\'' +
+                '}';
+    }
+}
+
+
+// LinkedList   queue
+
+public class RequestQueue {
+    private final LinkedList queue = new LinkedList();
+
+    public synchronized Request getRequest(){
+        while (queue.size() <= 0){
+            try {
+                wait();
+            }catch (Exception e){
+
+            }
+        }
+
+        return (Request) queue.removeFirst();
+    }
+
+    public synchronized void putRequest(Request request){
+        queue.addLast(request);
+        notifyAll();
+    }
+}
+
+
+public class ClientThread extends  Thread{
+    private Random random;
+    private RequestQueue queue;
+
+    public ClientThread(RequestQueue queue, String name, long seed) {
+        super(name);
+        this.queue = queue;
+        this.random = new Random(seed);
+    }
+
+    @Override
+    public void run() {
+        for (int i=0; i<10000; ++i){
+            Request r = new Request("No." + i);
+            System.out.println(Thread.currentThread().getName() + " request " + r);
+            queue.putRequest(r);
+
+            try {
+                Thread.sleep(random.nextInt(1000));
+            }catch (Exception e){
+
+            }
+        }
+    }
+}
+
+public class ServerThread extends Thread{
+    private Random random;
+    private RequestQueue queue;
+
+    public ServerThread(RequestQueue queue, String name, long seed) {
+        super(name);
+        this.queue = queue;
+        this.random = new Random(seed);
+    }
+
+    @Override
+    public void run() {
+        for (int i=0; i<10000; ++i){
+            Request r = queue.getRequest();
+            System.out.println(Thread.currentThread().getName() + " handles " + r);
+
+            try {
+                Thread.sleep(random.nextInt(1000));
+            }catch (Exception e){
+
+            }
+        }
+    }
+}
+
+

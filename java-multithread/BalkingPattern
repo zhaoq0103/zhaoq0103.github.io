@@ -1,0 +1,159 @@
+public class Main {
+    static  public  void main(String[] args){
+//        Data data = new Data("data.txt", "(empty)");
+//        new ChangerThread("changeThread", data).start();
+//        new SaverThread("saveThread", data).start();
+
+
+        Host host = new Host(10000);
+//        try{
+//            System.out.println(" excute begin:");
+//            host.Excute();
+//        }catch (TimeoutException e){
+//            e.printStackTrace();
+//        }catch (InterruptedException e){
+//            e.printStackTrace();
+//        }
+
+        Runnable r = new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    System.out.println(" excute begin:");
+                    host.Excute();
+                }catch (TimeoutException e){
+                    e.printStackTrace();
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        } ;
+
+        Thread a = new Thread(r);
+        a.start();
+
+//        ArrayList<String> strings = new ArrayList<>();
+//        strings.add("1");
+//        strings.add("2");
+//        strings.add("3");
+//        strings.add("4");
+//        strings.forEach((String string)->System.out.println(string));
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    System.out.println(" set excute:");
+                    Thread.sleep(1000);
+                    host.setExcutable();
+                }catch(Exception e){
+
+                }
+            }
+        }).start();
+
+    }
+}
+
+public class Data {
+    private final String filename;
+    private String content;
+    private boolean changed;
+
+    public Data(String filename, String content) {
+        this.filename = filename;
+        this.content = content;
+        this.changed = true;
+    }
+
+    public synchronized void change(String newContent){
+        this.content = newContent;
+        this.changed = true;
+    }
+
+    public synchronized void save() throws IOException {
+        if( !changed ){
+            return;
+        }
+
+        doSave();
+        this.changed = false;
+    }
+
+    private void doSave() throws IOException {
+        System.out.println(Thread.currentThread().getName() + " calls doSave, content:" + content);
+        Writer writer = new FileWriter(filename);
+        writer.write(this.content);
+        writer.close();
+    }
+}
+
+public class SaverThread extends Thread{
+    private Data data;
+
+    public SaverThread(String name, Data data) {
+        super(name);
+        this.data = data;
+    }
+
+    public void run(){
+        try{
+           while (true){
+               data.save();
+               Thread.sleep(1000);
+           }
+        }catch (Exception e){
+
+        }
+    }
+}
+
+
+public class TimeoutException extends InterruptedException {
+    public TimeoutException(String s) {
+        super(s);
+    }
+}
+
+
+public class TimeoutException extends InterruptedException {
+    public TimeoutException(String s) {
+        super(s);
+    }
+}
+
+public class Host {
+    private final long timeout;
+    private boolean ready = false;
+
+    public Host(long timeout) {
+        this.timeout = timeout;
+    }
+
+    public synchronized  void setExcutable(){
+       ready = true;
+       notifyAll();
+    }
+
+    public synchronized void Excute() throws InterruptedException, TimeoutException{
+        long start = System.currentTimeMillis();
+        System.out.println("record start:" + start);
+        while ( !ready ){
+            long now = System.currentTimeMillis();
+            long rest = timeout - (now - start);
+            if(rest <= 0){
+                throw   new TimeoutException("now-start:" + (now - start) + " timeout:" + timeout);
+            }
+
+            System.out.println("call wait(rest):" + rest);
+            // after wake up, loop continue from while(){   --> 继续向下执行
+            wait(500);
+        }
+
+        doExcute();
+    }
+
+    private void doExcute(){
+        System.out.println(Thread.currentThread().getName() + " doExcute ");
+    }
+}
