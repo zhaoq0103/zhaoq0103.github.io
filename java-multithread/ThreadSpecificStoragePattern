@@ -1,0 +1,100 @@
+1. java中有ThreadLocal类
+2. Actor-based与Task-based
+	Task-based: worker-thread Pattern; java.util.TimerTask
+	Actor-based: Active Object Pattern
+
+
+	public class Main {
+    public static void main(String[] args) {
+//        System.out.println("BEGIN");
+//        for (int i = 0; i < 10; i++) {
+//           Log.println("main: i = " + i);
+//           try{
+//               Thread.sleep(100);
+//           }catch (InterruptedException e){
+//
+//           }
+//        }
+//        Log.close();
+//        System.out.println("END");
+
+
+        new ClientThread("Alice").start();
+        new ClientThread("Boboy").start();
+        new ClientThread("Chirs").start();
+    }
+}
+
+
+public class ClientThread extends Thread{
+    //这个构造函数不重写，默认是没有的
+    public ClientThread(String name) {
+        super(name);
+    }
+
+    @Override
+    public void run() {
+        System.out.println(getName() + " BEGIN");
+        for (int i = 0; i < 10; i++) {
+            Log.println(getName() + " i = " + i);
+            try{
+                Thread.sleep(100);
+            }catch (InterruptedException e){
+
+            }
+        }
+        System.out.println(getName() + " END");
+        Log.close();
+    }
+}
+
+
+/***
+ * 使用到了proxy 模式
+ */
+public class Log {
+    private static final ThreadLocal tsLogSets = new ThreadLocal();
+
+    public static void println(String s){
+        getTsLog().println(s);
+    }
+
+    public static void close(){
+        getTsLog().close();
+    }
+
+
+    private  static TSLog getTsLog(){
+        TSLog log = (TSLog) tsLogSets.get();
+        if(log == null){
+           log = new TSLog(Thread.currentThread().getName() + "-log.txt") ;
+           tsLogSets.set(log);
+        }
+        return log;
+    }
+}
+
+
+public class TSLog {
+    private  PrintWriter writer = null;
+
+    public TSLog(String filename) {
+        try{
+            //在workspace的根目录下生成了日志文件
+            writer = new PrintWriter(new FileWriter(filename));
+        }catch (IOException e){}
+    }
+
+    public  void println(String s){
+        writer.println(s);
+    }
+
+    public void close(){
+        writer.println("----- end of file");
+        writer.close();
+    }
+}
+
+
+
+

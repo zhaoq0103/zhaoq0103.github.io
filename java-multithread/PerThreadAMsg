@@ -1,0 +1,49 @@
+    public static void main(String[] args){
+        System.out.println("Main Begin");
+        Host host = new Host();
+        host.Request(10, 'A');
+        host.Request(20, 'B');
+        host.Request(30, 'C');
+        System.out.println("Main End");
+    }
+
+
+    public class Host {
+    private  final  Helper helper = new Helper();
+    public  void Request(final int size, final char s){
+        System.out.println(" request (" + size + ", " + s + ") BEGIN");
+
+        new Thread(){
+            @Override
+            public void run() {
+               helper.handle(size, s);
+            }
+        }.start();
+
+
+//        helper.handle(size, s);
+
+        System.out.println(" request (" + size + ", " + s + ") END");
+
+    }
+}
+
+
+public class Helper {
+    public void handle(int size, char s){
+        System.out.println(" handle (" + size + ", " + s + ") BEGIN");
+        for (int i = 0; i < size; i++) {
+           slowly();
+           System.out.print(s);
+        }
+        System.out.println("   ");
+        System.out.println(" handle (" + size + ", " + s + ") END");
+    }
+
+    private void slowly(){
+        try {
+            Thread.sleep(1000);
+        }catch (InterruptedException e){ }
+    }
+}
+

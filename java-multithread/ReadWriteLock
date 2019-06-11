@@ -1,0 +1,173 @@
+public class Main {
+    public  static void main(String[] args){
+        Data data = new Data(20);
+
+        new ReadThread(data).start();
+        new ReadThread(data).start();
+        new ReadThread(data).start();
+        new ReadThread(data).start();
+        new ReadThread(data).start();
+        new ReadThread(data).start();
+
+        new WriteThread(data, "fdasfdsa").start();
+        new WriteThread(data, "ADFASFDA").start();
+    }
+}
+
+
+public class Data {
+    private final  char[] buffer;
+//    private final ReadWriteLock lock = new ReadWriteLock();
+    private final ReadWriteLock lock ;
+
+    public Data(int size) {
+        this.buffer = new char[size];
+        this.lock = new ReadWriteLock();
+        for (int i = 0; i < buffer.length; i++) {
+            buffer[i] = '*';
+        }
+    }
+
+    public char[] Read() throws InterruptedException{
+//        this.lock.lock();
+        this.lock.readLock();
+        try{
+           return doRead();
+//        }catch (Exception e){// 这里如果有catch 语句会报 missing return 的错误
+        }finally {
+           this.lock.readUnlock();
+        }
+    }
+
+    public  void Write(char c) throws InterruptedException{
+        this.lock.writeLock();
+        try{
+            doWrite(c);
+        } finally {
+            this.lock.writeUnlock();
+        }
+    }
+
+
+    private char[] doRead() throws InterruptedException{
+        char[] newbuff = new char[buffer.length];
+        for (int i = 0; i <buffer.length; i++) {
+           newbuff[i] = buffer[i];
+        }
+        slowly();
+        return newbuff ;
+    }
+
+    private void doWrite(char c) throws InterruptedException{
+        for (int i = 0; i < buffer.length; i++) {
+            buffer[i] = c;
+            slowly();
+        }
+    }
+
+    private void slowly() throws InterruptedException{
+        Thread.sleep(10);
+//        try{
+//            Thread.sleep(1000);
+//        }catch (Exception e){
+//
+//        }
+    }
+}
+
+
+public class ReadWriteLock {
+    private int readingReaders = 0;
+    private int writingWriters = 0;
+    private int watingWriters = 0;
+    private boolean preWriting = true;
+
+    public synchronized void readLock() throws  InterruptedException{
+        while (writingWriters > 0 || (watingWriters > 0 && preWriting)){
+           wait();
+        }
+
+        readingReaders++;
+    }
+
+    public synchronized void readUnlock(){
+        readingReaders--;
+        preWriting = true;
+        notifyAll();
+    }
+
+
+    public synchronized void writeLock() throws InterruptedException{
+        watingWriters++;
+        try{
+           while (readingReaders > 0 || writingWriters > 0){
+               wait();
+           }
+        }catch (Exception e){
+
+        }finally {
+           watingWriters--;
+        }
+
+        writingWriters++;
+    }
+
+    public synchronized void writeUnlock(){
+        writingWriters--;
+        preWriting = false;
+        notifyAll();
+    }
+}
+
+public class ReadThread extends Thread{
+    private final Data data;
+    public ReadThread(Data data) {
+        this.data = data;
+    }
+
+    @Override
+    public void run() {
+        try {
+           while (true){
+               char[] readc = data.Read();
+               System.out.println(Thread.currentThread().getName() + " reads " + String.valueOf(readc));
+           }
+        }catch (Exception e){
+
+        }
+    }
+}
+
+
+public class WriteThread extends Thread {
+    private static final Random random = new Random();
+    private final Data data;
+    private final String filler;
+    private int index;
+
+    public WriteThread(Data data, String filler) {
+        this.data = data;
+        this.filler = filler;
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true){
+                char c = nextChar();
+                data.Write(c);
+                System.out.println(Thread.currentThread().getName() + " ---- write " + String.valueOf(c));
+                Thread.sleep(random.nextInt(300));
+            }
+        }catch (Exception e){
+
+        }
+    }
+
+    private char nextChar(){
+        char c = filler.charAt(index);
+        index++;
+        if(index >= filler.length()) index = 0;
+        return c;
+    }
+}

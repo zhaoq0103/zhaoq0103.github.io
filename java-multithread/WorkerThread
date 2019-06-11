@@ -1,0 +1,158 @@
+1. Background Thread ; Thread Pool
+2. invocation和excution分离
+3. Command Pattern
+
+
+
+public class Main {
+    public static void main(String[] args){
+       Channel channel = new Channel(5);
+       channel.startWorkers();
+
+       new ClientThread("Alice", channel).start();
+       new ClientThread("Bobby", channel).start();
+       new ClientThread("Chirs", channel).start();
+    }
+}
+
+
+public class Channel {
+    private static final int MAX_REQUEST = 100;
+    private final Request[] requestQueue;
+    private int curCount;
+    private int head;
+    private int tail;
+
+    private final WorkerThread[] threadPool;
+
+    public Channel(int threads) {
+        this.requestQueue = new Request[MAX_REQUEST];
+        this.head = this.tail = this.curCount = 0;
+
+        this.threadPool = new WorkerThread[threads];
+        for (int i = 0; i < threadPool.length; i++) {
+            threadPool[i] = new WorkerThread("WorkkerThread " + i, this);
+        }
+    }
+
+    public void startWorkers(){
+        for (int i = 0; i < threadPool.length; i++) {
+            threadPool[i].start();
+        }
+    }
+
+    public synchronized void putRequest (Request request){
+        while(curCount >= requestQueue.length){//while 会阻挡程序向下执行，if不能
+            try {
+                wait();
+            }catch (InterruptedException e){
+
+            }
+        }
+
+        requestQueue[tail] = request;
+        tail = (tail+1)%requestQueue.length;
+        /*
+         * 上述代码功能
+         * tail++;
+         * if(tail >= buffers.length){
+         *   tail = 0;
+         * }
+         *
+         * */
+        curCount++;
+        notifyAll();
+    }
+
+
+    public synchronized Request takeRequest(){
+        while (0 >= curCount){//while 会阻挡程序向下执行，if不能
+            try {
+                wait();
+            }catch (InterruptedException e){
+
+            }
+        }
+
+        Request request = requestQueue[head];
+        head = (head+1)%requestQueue.length;
+        curCount--;
+        notifyAll();
+
+        return request;
+    }
+
+}
+
+
+public class Request {
+    private final String name;
+    private final int    rid;
+    private static final Random random = new Random();
+
+    public Request(String name, int rID){
+        this.name = name;
+        this.rid = rID;
+    }
+
+    public void excute(){
+       System.out.println(Thread.currentThread().getName() + " excute " + this);
+       try {
+           Thread.sleep(1000);
+       }catch (InterruptedException e){
+
+       }
+    }
+
+    @Override
+    public String toString() {
+        return "Request{" +
+                "name='" + name + '\'' +
+                ", rid=" + rid +
+                '}';
+    }
+}
+
+
+public class ClientThread extends Thread{
+    private final Channel channel;
+    private static final Random random = new Random();
+
+    public ClientThread(String name, Channel channel) {
+        super(name);
+        this.channel = channel;
+    }
+
+    @Override
+    public void run() {
+        try {
+            for (int i = 0; i < 1000; i++) {
+               Request request = new Request(getName(), i);
+               channel.putRequest(request);
+               Thread.sleep(random.nextInt(1000));
+            }
+        }catch (InterruptedException e){
+
+        }
+    }
+}
+
+
+
+public class WorkerThread extends Thread{
+    private final Channel channel;
+
+    public WorkerThread(String name, Channel c) {
+        super(name);
+        this.channel = c;
+    }
+
+    @Override
+    public void run() {
+        while (true){
+            Request r = channel.takeRequest();
+            r.excute();
+        }
+    }
+}
+
