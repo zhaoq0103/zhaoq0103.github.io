@@ -1,1 +1,314 @@
-1.
+
+public class Main {
+    public  static void main(String[] args){
+        ActiveObject activeObj = ActiveObjectFactory.createActiveObject();
+        new MakerClientThread("Alice", activeObj).start();
+        new MakerClientThread("Bobby", activeObj).start();
+
+        new DisplayClientThread("Chris", activeObj).start();
+    }
+}
+
+public class MakerClientThread extends Thread{
+    private final ActiveObject activeObject;
+    private final char filler;
+    public MakerClientThread(String name, ActiveObject obj) {
+        super(name);
+        this.activeObject = obj;
+        this.filler = name.charAt(0);
+    }
+
+    @Override
+    public void run() {
+        try{
+        for (int i = 1; true; i++) {
+           Result r = activeObject.makeString(i, filler) ;
+           Thread.sleep(10);
+
+           String value = (String)r.getResultValue();
+           System.out.println(Thread.currentThread().getName() + " value: " + value);
+        }
+        }catch (InterruptedException e ){}
+    }
+}
+
+public class DisplayClientThread extends Thread {
+    private final ActiveObject activeObject;
+    public DisplayClientThread(String name, ActiveObject obj) {
+        super(name);
+        this.activeObject = obj;
+    }
+
+
+
+    @Override
+    public void run() {
+        try{
+            for (int i = 1; true; i++) {
+                String value = Thread.currentThread().getName() + " value: " + i;
+                activeObject.displayString(value);
+                Thread.sleep(100);
+            }
+        }catch (InterruptedException e ){}
+    }
+}
+
+
+// package activeObject
+public interface ActiveObject {
+     Result makeString(int count, char c);
+     void displayString(String s);
+}
+
+
+public class ActiveObjectFactory {
+    public static ActiveObject createActiveObject(){
+        Servant servant = new Servant();
+        ActivationQueue queue =  new ActivationQueue();
+        SchedulerThread schedule = new SchedulerThread(queue);
+        Proxy proxy = new Proxy(schedule, servant);
+        schedule.start();
+        return proxy;
+    }
+}
+
+
+/**
+ * 将方法调用转换成对象, 分离方法的启动与执行
+ * 这个类是不公开的
+ */
+ class Proxy implements ActiveObject {
+    private final SchedulerThread scheduler;
+    private final Servant servant;
+
+    public Proxy(SchedulerThread scheduler, Servant servant) {
+        this.scheduler = scheduler;
+        this.servant = servant;
+    }
+
+    //要注意是哪个线程在执行这个函数
+    @Override
+    public Result makeString(int count, char c) {
+        FutureResult futur = new FutureResult();
+        scheduler.invoke(new MakeStringMethodRequest(servant, futur, count, c));
+        return futur;
+    }
+
+    //要注意是哪个线程在执行这个函数
+    @Override
+    public void displayString(String s) {
+        scheduler.invoke(new DisplayStringMethodRequest(servant, s));
+    }
+}
+
+/**
+ * Proxy和Servant都实现了 ActiveObject接口
+ * Proxy可以启动ActiveObject各种方法
+ * Servant具体执行ActiveObject各种方法
+ *
+ * ActiveObject对外公开，Proxy和Servant隐藏
+ */
+
+class Servant implements ActiveObject {
+    @Override
+    public Result makeString(int count, char c) {
+        char[] buff = new char[count];
+        for (int i = 0; i < count; i++) {
+            buff[i] = c;
+           try{
+               Thread.sleep(100 );
+           } catch (InterruptedException e){
+
+           }
+        }
+        return new RealResult(new String(buff));
+    }
+
+    @Override
+    public void displayString(String s) {
+        try {
+            System.out.println(" display string: " + s);
+            Thread.sleep(10);
+        }catch (InterruptedException e ){
+
+        }
+    }
+}
+
+
+class ActivationQueue {
+    private static final  int MAX_QUEST_COUNT = 100;
+    private final MethodRequest[] methodRequestQueue;
+    private int count;
+    private int head;
+    private int tail;
+
+    public ActivationQueue() {
+        this.methodRequestQueue = new MethodRequest[MAX_QUEST_COUNT];
+        this.head = this.tail = this.count = 0;
+    }
+
+    public synchronized void putRequest (MethodRequest r) {
+        while (count >= methodRequestQueue.length){
+            try {
+                wait();
+            }catch (InterruptedException eeee){
+                System.out.println("error  occurd");
+            }
+        }
+
+        methodRequestQueue[tail] = r;
+        tail = (tail + 1) % methodRequestQueue.length;
+        count++;
+
+        notifyAll();
+    }
+
+
+    public synchronized MethodRequest takeRequest(){
+        while (count <= 0){
+            try {
+                wait();
+            }catch (InterruptedException e){}
+        }
+
+        MethodRequest r = methodRequestQueue[head];
+        head = (head+1)% methodRequestQueue.length;
+        count--;
+        notifyAll();
+
+        return r;
+    }
+
+}
+
+
+/**
+ * 这个类的成员可以被子类使用，声明成protected类型
+ */
+
+abstract class MethodRequest {
+    protected final FutureResult future;
+    protected final Servant servant;
+
+    public MethodRequest(Servant servant, FutureResult future ) {
+        this.future = future;
+        this.servant = servant;
+    }
+
+    public abstract void execute();
+}
+
+/**
+ * 方法如何转换成类
+ * 1. 方法的参数对应到类的实际字段
+ * 2. 方法的启动，对应到实例，并调用线程的invoke方法
+ * 3.
+ * 4. 如何总结个通用情况？
+ */
+
+ class MakeStringMethodRequest extends MethodRequest {
+    private final int count;
+    private final char filler;
+
+    @Override
+    public void execute() {
+        Result r = servant.makeString(count,filler);
+        this.future.setResult(r);
+    }
+
+    public MakeStringMethodRequest(Servant s, FutureResult r, int count , char filler) {
+        super(s, r);
+        this.count = count;
+        this.filler = filler;
+    }
+}
+
+class DisplayStringMethodRequest extends MethodRequest {
+    private final String string;
+    @Override
+    public void execute() {
+        this.servant.displayString(string);
+    }
+
+    public DisplayStringMethodRequest(Servant s, String string) {
+        super(s, null);
+        this.string = string;
+    }
+}
+
+
+public abstract class Result {
+    public abstract Object getResultValue();
+}
+
+class FutureResult extends Result {
+    private Result realData;
+    private boolean ready = false;
+
+
+    public synchronized void setResult(Result realData){
+//        if(ready) return; //balk not used
+
+        this.ready = true;
+        this.realData = realData;
+        notifyAll();
+    }
+
+
+    @Override
+    public synchronized Object getResultValue() {
+        while ( !ready ){
+            try {
+                wait();
+            }catch (InterruptedException e){
+
+            }
+        }
+
+
+        return realData.getResultValue();
+    }
+
+}
+
+class RealResult extends Result {
+    private final Object resultValue;
+
+    public RealResult(Object resultValue) {
+        this.resultValue = resultValue;
+    }
+
+    @Override
+    public Object getResultValue() {
+        return resultValue;
+    }
+}
+
+
+/***
+ * 核心类
+ * 执行invoke和excute的方法不是是一个线程
+ * 不是公开类
+ */
+ 
+ class SchedulerThread extends Thread{
+    private final ActivationQueue queue;
+
+    public SchedulerThread(ActivationQueue queue) {
+        this.queue = queue;
+    }
+
+    public  void invoke(MethodRequest r){
+        queue.putRequest(r);
+    }
+
+    @Override
+    public void run() {
+        while (true){
+           MethodRequest r = queue.takeRequest();
+           r.execute();
+        }
+    }
+}
+
