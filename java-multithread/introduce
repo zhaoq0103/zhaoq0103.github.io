@@ -11,12 +11,13 @@ chap one
   与synchronized 实例方法 //synchronized(this)
 6.wait set
 7.wait, notify,notifyAll是Object类的方法
-
+8. sleep()  是Thread类方法
 
 chap two
-1.
+1.多线程要考虑的因素：安全性，生存性，性能性
 
 
 
+QA:
 
-
+可以学习一下JAVA中的LOCK的实现  - todo

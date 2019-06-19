@@ -54,3 +54,9 @@ public class Main {
         new PrintPersonThread(alice).start();
     }
 }
+
+
+QA：
+1.
+Point a = new Point(b.x, b.y);
+这个new调用了java的copy方法，javacopy方法有shallowcopy和deepCopy之分。。。

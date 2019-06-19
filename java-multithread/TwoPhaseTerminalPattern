@@ -7,6 +7,7 @@
 3. Thread.interrupted() //检查Thread.currentThread()的中断状态
 Thread.currentThread().isInterrupted() //不改变中断状态
 
+4. Thread jion()会进程进入等待状态，大家一起干完活儿再出发
 
 public class Main {
     public static void main(String[] args){
