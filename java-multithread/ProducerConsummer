@@ -126,3 +126,16 @@ public class EaterThread extends Thread{
         }
     }
 }
+
+/////
+// before/after模式, 语句的位置很重要
+before();
+try{
+	execute();
+}finally{
+	after();
+}
+
+
+
+
