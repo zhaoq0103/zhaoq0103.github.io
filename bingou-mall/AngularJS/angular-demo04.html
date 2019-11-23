@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>demo</title>
+	<script type="text/javascript"  src="angular.min.js"></script>
+	<script type="text/javascript">
+		var app=angular.module("myApp", []);
+		//$scope 控制层与视图层交换数据
+		app.controller("mycontroller", function($scope){
+			$scope.list=[1,2,3,4,5];
+		});
+	</script>
+</head>
+<body ng-app="myApp" ng-controller="mycontroller">
+	<table>
+		<tr ng-repeat="value in list">
+			<td>{{value}}</td>
+		</tr>
+	</table>
+</body>
+</html>

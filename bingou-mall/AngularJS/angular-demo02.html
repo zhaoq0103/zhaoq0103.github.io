@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>demo</title>
+	<script type="text/javascript"  src="angular.min.js"></script>
+	<script type="text/javascript">
+		var app=angular.module("myApp", []);
+		//$scope 控制层与视图层交换数据
+		app.controller("mycontroller", function($scope){
+			$scope.add=function(){
+				return parseInt($scope.x) + parseInt($scope.y);
+			}
+		});
+	</script>
+</head>
+<body ng-app="myApp" ng-controller="mycontroller" ng-init="name='真爱'"  >
+	<!-- name: <input  ng-model="name" type="" name=""> -->
+<!-- {{name}} -->
+
+
+ first num:<input ng-model="x" type="" name="" ng-init="x=0">
+ second num:<input ng-model="y" type="" name="" ng-init="y=0">
+
+ {{add()}}
+</body>
+</html>

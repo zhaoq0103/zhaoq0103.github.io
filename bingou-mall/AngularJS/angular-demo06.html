@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>demo</title>
+	<script type="text/javascript"  src="angular.min.js"></script>
+	<script type="text/javascript">
+		var app=angular.module("myApp", []);
+		//$scope 控制层与视图层交换数据
+		app.controller("mycontroller", function($scope, $http){
+			//$http
+			$scope.findList=function(){
+				$http.get("data.json").success(
+					function(response){
+						$scope.list = response;
+					}
+				);
+			}
+		});
+	</script>
+</head>
+<body ng-app="myApp" ng-controller="mycontroller" ng-init="findList()" >
+	<table>
+		<tr >
+			<td>name</td>
+			<td>age</td>
+			<td>sex</td>
+		</tr>
+		<tr ng-repeat="entity in list">
+			<td>{{entity.name}}</td>
+			<td>{{entity.age}}</td>
+			<td>{{entity.sex}}</td>
+		</tr>
+	</table>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>demo</title>
+	<script type="text/javascript"  src="angular.min.js"></script>
+	<script type="text/javascript">
+		var app=angular.module("myApp", []);
+		//$scope 控制层与视图层交换数据
+		app.controller("mycontroller", function($scope){
+			$scope.list = [
+				{name:'zhangsan', age:15, sex:1},
+				{name:'lisi', age:16, sex:0},
+				{name:'wangwu', age:19, sex:1}
+			];
+		});
+	</script>
+</head>
+<body ng-app="myApp" ng-controller="mycontroller">
+
+	<table>
+		<tr >
+			<td>name</td>
+			<td>age</td>
+			<td>sex</td>
+		</tr>
+		<tr ng-repeat="entity in list">
+			<td>{{entity.name}}</td>
+			<td>{{entity.age}}</td>
+			<td>{{entity.sex}}</td>
+		</tr>
+	</table>
+
+</body>
+</html>

@@ -1,2 +1,11 @@
+# https://github.com/github/gitignore
 
-数据结构与算法之美学习/.DS_Store
+#MAC
+.DS_Store
+
+#IDE
+.idea
+out
+*.class
+*.log
+
