@@ -1,9 +1,16 @@
 1. 生产者消费者模型和 中介者模式的区别
 2. wait 被 interrupt时， 会先获取锁定，然后再抛出 InterruptedException
 3. notify, notifyAll唤醒线程后，会前进到 wait的下一个语句 ， 所以wait一般用while来看住
+   3.1 notify会唤醒哪个线程？
 4. join和sleep一样，不需要获取线程的锁定
 5. isInterrupted 会返回中断状态
 6. interrupt 与 interrupted 方法
+
+Object类对线程的支持：
+final void wait();
+final void notify();
+final void notifyAll();
+
 
 public class Main {
 
@@ -55,7 +62,7 @@ public class Table {
         *
         * */
         curCount++;
-        notifyAll();
+        notifyAll(); //相当于super.notifyAll();
     }
 
 

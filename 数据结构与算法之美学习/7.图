@@ -1,0 +1,362 @@
+一。Graph的基本概念：
+顶点:  vertex, 
+边: edge
+度: degree
+方向：有向图（入度和出度），无向图（度）
+带权图：边的权重（weight)
+
+二。图的存储：
+参考：https://blog.csdn.net/woaidapaopao/article/details/51732947
+邻接矩阵（Adjacency Matrix）
+邻接表（Adjacency List）：邻接表的改进升级
+逆邻接表
+
+内存存储；关系DB存储（建立索引）；图数据库
+
+三。图的搜索
+基本方法：深度优先和广度优先搜索
+高级方法：A*、IDA*
+
+深度搜索：借助一个栈，后进先出
+广度搜索：借助一个队列，先进先出
+
+
+微信与微博的比较：
+1.微信是熟人圈关系，如何获取更多圈外信息？
+2.微博如何发展更亲密的关系？
+
+
+四. 字符串处理
+1. BF 算法和 RK 算法// Brute Force 暴力匹配算法，也叫朴素匹配算法
+2.BM 算法和 KMP 算法
+3.Trie 树和 AC 自动机 //美 [traɪ]
+
+五。Trie 树
+六。AC自动机
+
+
+public class GraphProblem {
+    public static void main(String[] args){
+       char[][] islands = {
+//            {'1','1','1','1','0'},
+//            {'1','1','0','1','0'},
+//            {'1','1','0','0','0'},
+//            {'0','0','0','0','0'},
+
+
+               {'1','1','0','0','0'},
+               {'1','1','0','0','0'},
+               {'0','0','1','0','0'},
+               {'0','0','0','1','1'},
+        };
+
+       GraphProblem tool = new GraphProblem();
+//       int nums =  tool.numIslands(islands);
+//       System.out.println("island num:" + nums);
+
+//        Node node1 = new Node(1, new ArrayList<>());
+//        Node node2 = new Node(2, new ArrayList<>());
+//        Node node3 = new Node(3, new ArrayList<>());
+//        Node node4 = new Node(4, new ArrayList<>());
+//
+//        node1.neighbors.add(node2);
+//        node1.neighbors.add(node4);
+//
+//        node2.neighbors.add(node1);
+//        node2.neighbors.add(node3);
+//
+//        node3.neighbors.add(node2);
+//        node3.neighbors.add(node4);
+//
+//        node4.neighbors.add(node1);
+//        node4.neighbors.add(node3);
+//
+//
+//        tool.T133_cloneGraph(node1);
+//        tool.T133_cloneGraphBFS(node1);
+
+
+        int[][] reques = {{1,0},{0,1}};
+//        int[][] reques = {{0,1},{0,3},{1,2},{1,3},{2,4},{3,4}};
+//        tool.T207_canFinishBFS(5,reques);
+        tool.T207_canFinishDFS(2,reques);
+    }
+
+    /**
+     * 判断是否是有向无环图
+     * @param numCourses
+     * @param prerequisites
+     * @return
+     */
+
+    public boolean T207_canFinishDFS(int numCourses, int[][] prerequisites) {
+        int[][] adjacency = new int[numCourses][numCourses];
+        int[] flags = new int[numCourses];
+        for(int[] cp : prerequisites)
+            adjacency[cp[1]][cp[0]] = 1;
+        for(int i = 0; i < numCourses; i++){
+            if(!dfs(adjacency, flags, i)) return false;
+        }
+        return true;
+    }
+
+    private boolean dfs(int[][] adjacency, int[] flags, int i) {
+        //递归的终止条件
+        if(flags[i] == 1) return false;
+        if(flags[i] == -1) return true;
+
+        flags[i] = 1;
+        for(int j = 0; j < adjacency.length; j++) {
+            if(adjacency[i][j] == 1 && !dfs(adjacency, flags, j)) return false;
+        }
+        flags[i] = -1;
+        return true;
+    }
+
+    public boolean T207_canFinishBFS(int numCourses, int[][] prerequisites) {
+        int[] indegrees = new int[numCourses];
+        for(int[] cp : prerequisites) {
+            indegrees[cp[0]]++;
+        }
+
+        LinkedList<Integer> queue = new LinkedList<>();
+        for(int i = 0; i < numCourses; i++){
+            if(indegrees[i] == 0) queue.addLast(i);
+        }
+
+        while(!queue.isEmpty()) {
+            Integer pre = queue.removeFirst();
+            numCourses--;
+            for(int[] req : prerequisites) {
+                if(req[1] != pre) continue;
+                if(--indegrees[req[0]] == 0) queue.add(req[0]);
+            }
+        }
+
+        return numCourses == 0;
+    }
+
+    static class Node {
+        public int val;
+        public List<Node> neighbors;
+
+        public Node() {}
+
+        public Node(int _val,List<Node> _neighbors) {
+            val = _val;
+            neighbors = _neighbors;
+        }
+    };
+
+
+    public Node T133_cloneGraph(Node node) {
+        Map<Node, Node> lookup = new HashMap<>();
+        return dfs(node, lookup);
+    }
+
+
+    private Node dfs(Node node, Map<Node,Node> lookup) {
+        if (node == null) return null;
+        if (lookup.containsKey(node)) return lookup.get(node);
+        Node clone = new Node(node.val, new ArrayList<>());
+        lookup.put(node, clone);
+        for (Node n : node.neighbors)clone.neighbors.add(dfs(n,lookup));
+        return clone;
+    }
+
+    public Node T133_cloneGraphBFS(Node node) {
+        if (node == null) return null;
+        Map<Node, Node> lookup = new HashMap<>();
+        Node clone = new Node(node.val, new ArrayList<>());
+        lookup.put(node, clone);
+        Deque<Node> queue = new LinkedList<>();
+        queue.offer(node);
+        while (!queue.isEmpty()) {
+            Node tmp = queue.poll();
+            for (Node n : tmp.neighbors) {
+                if (!lookup.containsKey(n)) {
+                    lookup.put(n, new Node(n.val, new ArrayList<>()));
+                    queue.offer(n);
+                }
+                lookup.get(tmp).neighbors.add(lookup.get(n));
+            }
+        }
+        return clone;
+    }
+
+
+    /**
+     * 这道题和图有什么关系？
+     * @param board
+     * @return
+     */
+    public boolean T36_isValidSudoku(char[][] board) {
+        return false;
+    }
+
+
+    /**
+     * 并查集，看不太明白
+     */
+    class UnionFind {
+        int count; // # of connected components
+        int[] parent;
+        int[] rank;
+
+        public UnionFind(char[][] grid) { // for problem 200
+            count = 0;
+            int m = grid.length;
+            int n = grid[0].length;
+            parent = new int[m * n];
+            rank = new int[m * n];
+            for (int i = 0; i < m; ++i) {
+                for (int j = 0; j < n; ++j) {
+                    if (grid[i][j] == '1') {
+                        parent[i * n + j] = i * n + j;
+                        ++count;
+                    }
+                    rank[i * n + j] = 0;
+                }
+            }
+        }
+
+        public int find(int i) { // path compression
+            if (parent[i] != i) parent[i] = find(parent[i]);
+            return parent[i];
+        }
+
+        public void union(int x, int y) { // union with rank
+            int rootx = find(x);
+            int rooty = find(y);
+            if (rootx != rooty) {
+                if (rank[rootx] > rank[rooty]) {
+                    parent[rooty] = rootx;
+                } else if (rank[rootx] < rank[rooty]) {
+                    parent[rootx] = rooty;
+                } else {
+                    parent[rooty] = rootx; rank[rootx] += 1;
+                }
+                --count;
+            }
+        }
+
+        public int getCount() {
+            return count;
+        }
+    }
+
+    public int numIslandsUnion(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        int nr = grid.length;
+        int nc = grid[0].length;
+        int num_islands = 0;
+        UnionFind uf = new UnionFind(grid);
+        for (int r = 0; r < nr; ++r) {
+            for (int c = 0; c < nc; ++c) {
+                if (grid[r][c] == '1') {
+                    grid[r][c] = '0';
+                    if (r - 1 >= 0 && grid[r-1][c] == '1') {
+                        uf.union(r * nc + c, (r-1) * nc + c);
+                    }
+                    if (r + 1 < nr && grid[r+1][c] == '1') {
+                        uf.union(r * nc + c, (r+1) * nc + c);
+                    }
+                    if (c - 1 >= 0 && grid[r][c-1] == '1') {
+                        uf.union(r * nc + c, r * nc + c - 1);
+                    }
+                    if (c + 1 < nc && grid[r][c+1] == '1') {
+                        uf.union(r * nc + c, r * nc + c + 1);
+                    }
+                }
+            }
+        }
+
+        return uf.getCount();
+    }
+
+
+    public int numIslandsBFS(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        int nr = grid.length;
+        int nc = grid[0].length;
+        int num_islands = 0;
+
+        for (int r = 0; r < nr; ++r) {
+            for (int c = 0; c < nc; ++c) {
+                if (grid[r][c] == '1') {
+                    ++num_islands;
+                    grid[r][c] = '0'; // mark as visited
+                    Queue<Integer> neiors = new LinkedList<>();
+                    neiors.add(r * nc + c);
+                    while (!neiors.isEmpty()) {
+                        int id = neiors.remove();
+                        int row = id / nc;
+                        int col = id % nc;
+                        if (row - 1 >= 0 && grid[row-1][col] == '1') {
+                            neiors.add((row-1) * nc + col);
+                            grid[row-1][col] = '0';
+                        }
+                        if (row + 1 < nr && grid[row+1][col] == '1') {
+                            neiors.add((row+1) * nc + col);
+                            grid[row+1][col] = '0';
+                        }
+                        if (col - 1 >= 0 && grid[row][col-1] == '1') {
+                            neiors.add(row * nc + col-1);
+                            grid[row][col-1] = '0';
+                        }
+                        if (col + 1 < nc && grid[row][col+1] == '1') {
+                            neiors.add(row * nc + col+1);
+                            grid[row][col+1] = '0';
+                        }
+                    }
+                }
+            }
+        }
+
+        return num_islands;
+    }
+
+
+    private void dfs(char[][] grid, int r, int c) {
+        int nr = grid.length;
+        int nc = grid[0].length;
+
+        if (r < 0 || c < 0 || r >= nr || c >= nc || grid[r][c] == '0') {
+            return;
+        }
+
+        grid[r][c] = '0';
+        dfs(grid, r - 1, c);
+        dfs(grid, r + 1, c);
+        dfs(grid, r, c - 1);
+        dfs(grid, r, c + 1);
+    }
+
+    //200. 岛屿数量
+    public int numIslands(char[][] grid) {
+        if (grid == null || grid.length == 0) {
+            return 0;
+        }
+
+        int nr = grid.length;
+        int nc = grid[0].length;
+        int num_islands = 0;
+        for (int r = 0; r < nr; ++r) {
+            for (int c = 0; c < nc; ++c) {
+                if (grid[r][c] == '1') {
+                    ++num_islands;
+                    dfs(grid, r, c);
+                }
+            }
+        }
+
+        return num_islands;
+    }
+}
+

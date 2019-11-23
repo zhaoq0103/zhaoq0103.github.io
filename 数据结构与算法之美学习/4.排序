@@ -1,0 +1,58 @@
+排序算法性能分析：
+1.执行效率
+2.内存消耗
+3.稳定性
+（有序度，逆序度）
+
+1.冒泡，插入, 选择
+冒泡：原地，稳定，有序度和逆序度
+满有序度：
+完全有序的数组，比如 1，2，3，4，5，6，有序度就是n*(n-1)/2
+逆序度 = 满有序度 - 有序度
+
+插入排序（希尔排序）比冒泡排序性能好
+插入排序移动次数等于逆序度
+
+选择排序不是稳定排序
+
+2.归并排序和快速排序 （分治思想），效率高，适合大规模数据排序
+分治是一种解决问题的处理思想，递归是一种编程技巧
+
+归并排序的时间复杂度是 O(nlogn)， 稳定排序，
+非原地排序，空间复杂度O(n) -- 没太理解这个空间复杂度
+
+归并排序比较容易理解
+
+3.快速排序并不是一个稳定的排序算法
+// 快速排序递归函数，p,r 为下标
+private static void quick_sort_c(int[]A, int p, int r) {
+    if (p >= r) return;
+
+    int q = partition(A, p, r); // 获取分区点
+    quick_sort_c(A, p, q-1);
+    quick_sort_c(A, q+1, r);
+}
+
+private static int partition(int[]A, int p, int r) {
+    int pivot = A[r];
+    //这里的slow作用就像一个哨兵，记录比pivot大的位置，每次更换一下
+    //有点像快慢指针
+    int slow = p;
+    for (int fast=p; fast < r - 1; fast++) {
+        if (A[fast] < pivot) {
+            int tmp = A[slow];
+            A[slow] = A[fast];
+            A[fast] = tmp;
+            slow++;
+        }
+    }
+    int tmp = A[slow];
+    A[slow] = A[r];
+    A[r] = tmp;
+    return slow;
+}
+
+上述排序都改变了原数据
+4.桶排序(比较适合用在外部排序中)、计数排序、基数排序 --- (线性排序)
+这三种排序算法看的比较粗略，有时间可以再细看
+计数排序:
