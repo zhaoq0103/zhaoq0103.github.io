@@ -13,7 +13,7 @@ public class UserServiceTest {
     public void test1(){
 
         ApplicationContext ac = new  AnnotationConfigApplicationContext(SpringConfig.class);
-        UserService us1 =  ac.getBean(UserServiceImpl.class);
+        UserService us1 =  ac.getBean(UserService.class);
         us1.saveUser();
 
         UserService us2 = (UserService) ac.getBean("userService");
