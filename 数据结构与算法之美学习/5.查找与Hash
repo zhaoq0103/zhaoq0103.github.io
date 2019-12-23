@@ -2,6 +2,12 @@
 容易出错的细节：
 终止条件、区间上下界更新方法、返回值选择
 
+二分查找，是仅限于数值还是可以用来查找字符串？
+When the values in the list are all constants, MySQL performs the following steps:
+
+    First, evaluate the values based on the type of the column_1 or result of the  expr  expression.
+    Second, sort the values.
+    Third, search for the value using the binary search algorithm. Therefore, a query that uses the IN  operator with a list of constants performs very fast.
 
 二。跳表
 巧妙之处：多个链表（索引和原链表）的批量操作，引入update[i]作记录
