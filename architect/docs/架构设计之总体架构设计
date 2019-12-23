@@ -22,10 +22,10 @@ SOA: 一般通过ESB交互（业务方向垂直拆分）
 数据访问层：有什么中间件？
 
 微服务：
-服务网格：Istio
+服务网格：Istio（服务治理，服务发现？）
 大中台：
 cloud native：
 
 
 其它：
-swagger --> API 安全
+swagger（强大的API文档工具） --> API 安全

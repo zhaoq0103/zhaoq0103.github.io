@@ -1,0 +1,67 @@
+Spring:
+
+MAC版本eclipse,
+CMD+T 可以展示一个类的结构
+
+Spring3.0提供注入属性方式:
+语法：${表达式}
+
+加载配置文件：
+一种写法:
+ApplicationContext applicationContext = new ClassPathXmlApplicationContext("bean1.xml",”bean2.xml”);
+二种方法:
+<import resource="applicationContext2.xml"/>
+
+IntelliJ IDEA部署tomcat时出现No artifacts marked for deployment
+这种错误主要是因为没有设置导出包
+参考：
+https://blog.csdn.net/sinat_41905822/article/details/88981871
+
+
+
+Spring框架,如果类实现了接口,就使用JDK的动态代理生成代理对象,如果这个类没有实现任何接口,使用CGLIB生成代理对象
+
+区分基于ProxyFattoryBean的代理与自动代理区别?
+***** ProxyFactoryBean:先有被代理对象,将被代理对象传入到代理类中生成代理.
+   自动代理基于后处理Bean.在Bean的生成过程中,就产生了代理对象,把代理对象返回.生成Bean已经是代理对象.
+
+
+新版本Spring框架，建议使用AspectJ方式来开发AOP
+
+AspectJ表达式:
+* 语法:execution(表达式)
+execution(<访问修饰符>?<返回类型><方法名>(<参数>)<异常>)
+
+
+
+Spring提供事务管理API:
+PlatformTransactionManager
+
+常用实现：（myBatis)
+org.springframework.jdbc.datasource.DataSourceTransactionManager
+
+
+
+
+
+
+
+动态表单？
+业务个性化扩展数据表？
+参考一下架构师之路博客
+
+
+
+幂等性， 
+最好不使用自增ID， 可以用开源的snowflake, leaf，uid-generator
+ABA问题， 使用CAS乐观锁解决，version号
+
+
+
+
+
+
+1. 11月前 各分公司 交9800，和他们的提成有关的数据先给我
+2. 各分司 3800，多少人 5600多少人，9800多少人
+3. 明天把直推10个以上的名单 电话姓名发我一下
+
