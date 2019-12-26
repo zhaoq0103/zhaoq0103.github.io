@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+    <dubbo:application name="consumer01" />
+    <!--<dubbo:reference id="doSomething" interface="com.zq.common.IDoSomething"-->
+                     <!--url="dubbo://localhost:20880" />-->
+
+
+    <dubbo:registry address="zookeeper://mallServer:2181" />
+
+    <!--消费引用：基于服务级别的声明式缓存（结果缓存）-->
+    <!--<dubbo:reference interface="com.zq.common.IDoSomething" id="doSomething" cache="true" />-->
+
+    <!--消费引用：基于方法级别的声明式缓存（结果缓存）-->
+    <dubbo:reference interface="com.zq.common.IDoSomething" id="something" version="0.0.2">
+        <dubbo:method name="doSomething" cache="lru" />
+    </dubbo:reference>
+</beans>

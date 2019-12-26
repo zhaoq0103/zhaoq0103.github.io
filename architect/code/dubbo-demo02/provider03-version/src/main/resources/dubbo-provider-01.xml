@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
+
+
+    <dubbo:application name="provider02-zk" />
+    <bean id="doSomething" class="com.zq.service.User" />
+    <bean id="doOtherthing" class="com.zq.service.UserEx" />
+
+    <!--<dubbo:service interface="com.zq.common.IDoSomething"-->
+                   <!--ref="doSomething"-->
+                   <!--registry="N/A" />-->
+
+    <dubbo:registry address="zookeeper://mallServer:2181" />
+    <dubbo:service interface="com.zq.common.IDoSomething" ref="doSomething" version="0.0.1"/>
+    <dubbo:service interface="com.zq.common.IDoSomething" ref="doOtherthing" version="0.0.2"/>
+
+</beans>
