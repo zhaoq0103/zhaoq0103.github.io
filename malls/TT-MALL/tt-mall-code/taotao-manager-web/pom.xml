@@ -11,6 +11,14 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<dependencies>
+
+		<!--NoClassDefFoundError: org/apache/curator/RetryPolicy-->
+		<!--High-level API that greatly simplifies using ZooKeeper.-->
+		<dependency>
+			<groupId>org.apache.curator</groupId>
+			<artifactId>curator-framework</artifactId>
+		</dependency>
+
 		<!-- manager-interface接口 -->
 		<dependency>
 			<groupId>com.taotao</groupId>
@@ -90,6 +98,11 @@
 			<groupId>com.github.sgroschupf</groupId>
 			<artifactId>zkclient</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>javax.annotation-api</artifactId>
+			<version>1.2</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
@@ -98,7 +111,7 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<port>8081</port>
+					<port>8881</port>
 					<path>/</path>
 				</configuration>
 			</plugin>

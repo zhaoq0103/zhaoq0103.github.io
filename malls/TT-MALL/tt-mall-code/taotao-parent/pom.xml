@@ -24,7 +24,10 @@
 		<commons-lang3.version>3.3.2</commons-lang3.version>
 		<commons-io.version>1.3.2</commons-io.version>
 		<commons-net.version>3.3</commons-net.version>
-		<pagehelper.version>3.4.2-fix</pagehelper.version>
+		<!--<pagehelper.version>3.4.2-fix</pagehelper.version>-->
+		<!--版本不一致，导致com.github.pagehelper.PageHelper cannot be cast to class org.apache.ibatis.plugin.Interceptor-->
+		<!--<pagehelper.version>5.1.10</pagehelper.version>-->
+		<pagehelper.version>4.1.6</pagehelper.version>
 		<jsqlparser.version>0.9.1</jsqlparser.version>
 		<commons-fileupload.version>1.3.1</commons-fileupload.version>
 		<jedis.version>2.7.2</jedis.version>
@@ -35,10 +38,16 @@
 		<activemq.version>5.13.0</activemq.version>
 		<freemarker.version>2.3.23</freemarker.version>
 		<quartz.version>2.2.2</quartz.version>
+		<curator.version>4.0.1</curator.version>
 	</properties>
 	<!-- 就是管理版本的标签   其下的dependencies标签只是版本的管理 并不依赖jar-->
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+				<groupId>org.apache.curator</groupId>
+				<artifactId>curator-framework</artifactId>
+				<version>${curator.version}</version>
+			</dependency>
 			<!-- 时间操作组件 -->
 			<dependency>
 				<groupId>joda-time</groupId>
