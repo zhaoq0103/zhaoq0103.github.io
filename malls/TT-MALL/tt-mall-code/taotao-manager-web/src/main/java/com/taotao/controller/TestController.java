@@ -19,8 +19,8 @@ import javax.annotation.Resource;
  */
 @Controller
 public class TestController {
-	@Autowired
-//	@Resource
+//	@Autowired
+	@Resource
 	private TestService testservice;
 	
 	@RequestMapping("/test/qureyNow")
