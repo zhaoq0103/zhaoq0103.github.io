@@ -9,6 +9,7 @@ import com.taotao.pojo.TbContentCategoryExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,6 +43,26 @@ public class ContentCategoryServiceImpl implements ContentCategoryService {
 
 
     public TaotaoResult createContentCategory(Long parentId, String name){
+        TbContentCategory category = new TbContentCategory();
+        category.setParentId(parentId);
+        category.setCreated(new Date());
+        category.setIsParent(false);
+        category.setName(name);
+        category.setSortOrder(1);
+        category.setUpdated(category.getCreated());
+
+        mapper.insertSelective(category);
+
+        TbContentCategory parent = mapper.selectByPrimaryKey(parentId);
+        if(parent.getIsParent() == false){
+            parent.setIsParent(true);
+            mapper.updateByPrimaryKeySelective(parent);
+        }
+
+        return TaotaoResult.ok(category);
+    }
+
+    public TaotaoResult deleteContentCategory(long parentId){
         return TaotaoResult.ok();
     }
 }

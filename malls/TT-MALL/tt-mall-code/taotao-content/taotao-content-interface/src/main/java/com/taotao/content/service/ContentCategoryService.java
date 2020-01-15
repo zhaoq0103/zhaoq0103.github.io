@@ -17,4 +17,5 @@ public interface ContentCategoryService {
 	 * @return
 	 */
 	public TaotaoResult createContentCategory(Long parentId,String name);
+	public TaotaoResult deleteContentCategory(long parentId);
 }
