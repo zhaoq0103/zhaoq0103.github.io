@@ -2,7 +2,6 @@ package com.taotao.test.pagehelper;
 
 import java.util.List;
 
-import javax.management.openmbean.TabularType;
 
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
