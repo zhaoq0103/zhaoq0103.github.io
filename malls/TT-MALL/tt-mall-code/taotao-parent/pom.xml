@@ -39,10 +39,17 @@
 		<freemarker.version>2.3.23</freemarker.version>
 		<quartz.version>2.2.2</quartz.version>
 		<curator.version>4.0.1</curator.version>
+		<jedis.version>2.9.0</jedis.version>
 	</properties>
 	<!-- 就是管理版本的标签   其下的dependencies标签只是版本的管理 并不依赖jar-->
 	<dependencyManagement>
 		<dependencies>
+			<!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+			<dependency>
+				<groupId>redis.clients</groupId>
+				<artifactId>jedis</artifactId>
+				<version>${jedis.version}</version>
+			</dependency>
 			<dependency>
 				<groupId>org.apache.curator</groupId>
 				<artifactId>curator-framework</artifactId>
