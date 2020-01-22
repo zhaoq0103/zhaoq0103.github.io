@@ -15,7 +15,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.version>5.0.7.RELEASE</spring.version>
+        <spring.version>5.2.3.RELEASE</spring.version>
         <!-- 这里设置了JDK没有起作用，还是工程设置中的JDK起了作用 -->
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
