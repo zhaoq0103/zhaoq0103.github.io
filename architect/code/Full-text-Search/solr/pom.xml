@@ -8,10 +8,44 @@
 	<packaging>war</packaging>
 
 	<dependencies>
+		<!-- mysql数据库驱动包 -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.35</version>
+		</dependency>
+
+		<!-- dbcp连接池的依赖包 -->
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<!-- mybatis依赖 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.4.5</version>
+		</dependency>
+
+		<!-- mybatis和spring的整合依赖 -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.3.1</version>
+		</dependency>
+		<!-- 持久层依赖 结束 -->
+
 		<!-- spring MVC依赖包 -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
+			<version>5.0.7.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
 			<version>5.0.7.RELEASE</version>
 		</dependency>
 
@@ -37,7 +71,6 @@
 			<version>4.10.4</version>
 		</dependency>
 
-
 		<!-- 单元测试Junit -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -48,6 +81,26 @@
 
 
 	<build>
+		<resources>
+			<resource>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+			<resource>
+				<directory>src/main/resources</directory>
+				<includes>
+					<include>**/*.properties</include>
+					<include>**/*.xml</include>
+				</includes>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+
+
 		<plugins>
 			<!-- 配置Maven的JDK编译级别 -->
 			<plugin>
@@ -67,7 +120,7 @@
 				<version>2.2</version>
 				<configuration>
 					<path>/</path>
-					<port>8180</port>
+					<port>8080</port>
 				</configuration>
 			</plugin>
 		</plugins>

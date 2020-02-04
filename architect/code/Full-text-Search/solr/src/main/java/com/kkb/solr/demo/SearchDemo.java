@@ -27,6 +27,7 @@ public class SearchDemo {
 		SolrQuery query = new SolrQuery();
 		// 设置搜索条件
 		query.setQuery("*:*");
+//		query.set("q", "*:*");
 
 		// 发起搜索请求
 		QueryResponse response = this.httpSolrServer.query(query);

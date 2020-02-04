@@ -16,7 +16,7 @@
 <link rel="stylesheet" type="text/css"
 	href="<c:url value='/resource'/>/pop_compare.css" media="all">
 <link rel="shortcut icon" type="image/ico"
-	href="http://list.jd.com/favicon.ico">
+	href="/resource/favicon.ico">
 <script type="text/javascript"
 	src="<c:url value='/resource'/>/jquery-1.2.6.pack.js"></script>
 <style id="style-1-cropbar-clipper">/* Copyright 2014 Evernote Corporation. All rights reserved. */
@@ -118,7 +118,7 @@
 		<div id="search-2013">
 			<div class="i-search ld">
 				<ul id="shelper" class="hide"></ul>
-				<form id="actionForm" action="list.action" method="POST">
+				<form id="actionForm" action="search" method="POST">
 				<div class="form">
 					<input type="text" class="text" accesskey="s" name="queryString" id="key" value="${queryString }"
 						autocomplete="off" onkeydown="javascript:if(event.keyCode==13) {query()}">
@@ -333,7 +333,7 @@
 			<div class="lh-wrap">
 				<div class="p-img">
 					<a target="_blank" href="#">
-						<img width="220" height="282" class="err-product" src="/images/${item.picture}">
+						<img width="220" height="282" class="err-product" src="http://localhost/images/${item.picture}">
 					</a>
 				</div>
 				<div class="p-name">
