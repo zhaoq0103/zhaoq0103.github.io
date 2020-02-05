@@ -7,38 +7,16 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<groupId>com.taotao</groupId>
-	<artifactId>taotao-manager-web</artifactId>
+	<artifactId>taotao-search-web</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 	<dependencies>
-
-		<!--NoClassDefFoundError: org/apache/curator/RetryPolicy-->
-		<!--High-level API that greatly simplifies using ZooKeeper.-->
-		<dependency>
-			<groupId>org.apache.curator</groupId>
-			<artifactId>curator-framework</artifactId>
-		</dependency>
-
-		<!-- manager-interface接口 -->
-		<dependency>
-			<groupId>com.taotao</groupId>
-			<artifactId>taotao-manager-interface</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<!-- content-interface接口 -->
-		<dependency>
-			<groupId>com.taotao</groupId>
-			<artifactId>taotao-content-interface</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-		<!-- search-interface接口 -->
+		<!-- 搜索接口 -->
 		<dependency>
 			<groupId>com.taotao</groupId>
 			<artifactId>taotao-search-interface</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -83,11 +61,6 @@
 			<artifactId>jsp-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- 文件上传组件 -->
-		<dependency>
-			<groupId>commons-fileupload</groupId>
-			<artifactId>commons-fileupload</artifactId>
-		</dependency>
 		<!-- dubbo相关 -->
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -113,9 +86,9 @@
 			<artifactId>zkclient</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>javax.annotation</groupId>
-			<artifactId>javax.annotation-api</artifactId>
-			<version>1.2</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -125,7 +98,7 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<port>8881</port>
+					<port>8085</port>
 					<path>/</path>
 				</configuration>
 			</plugin>
