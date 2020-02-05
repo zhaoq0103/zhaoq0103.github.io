@@ -164,7 +164,7 @@
 			</div>
 			<div id="treasure"></div>
 			<ul id="navitems-2013">
-				<li class="fore1" id="nav-home"><a href="https://www.kaikeba.com/">首页</a></li>
+				<li class="fore1" id="nav-home"><a href="https://www.baidu.com/">首页</a></li>
 				<li class="fore2" id="nav-fashion"><a href="http://fashion.jd.com/">服装城</a></li>
 				<li class="fore3" id="nav-chaoshi"><a href="http://channel.jd.com/chaoshi.html">食品</a></li>
 				<li class="fore4" id="nav-tuan"><a href="http://tuan.jd.com/" target="_blank">团购</a></li>

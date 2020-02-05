@@ -1,6 +1,5 @@
 package com.kkb.solr.controller;
 
-import javax.annotation.Resource;
 
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -8,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kkb.solr.service.IndexService;
+
+import javax.annotation.Resource;
 
 @Controller
 public class IndexController {
