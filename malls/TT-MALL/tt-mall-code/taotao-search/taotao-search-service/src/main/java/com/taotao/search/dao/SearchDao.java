@@ -4,11 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.taotao.common.pojo.TaotaoResult;
+import com.taotao.search.mapper.SearchItemMapper;
 import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServer;
 import org.apache.solr.client.solrj.response.QueryResponse;
 import org.apache.solr.common.SolrDocument;
 import org.apache.solr.common.SolrDocumentList;
+import org.apache.solr.common.SolrInputDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -27,6 +30,10 @@ import com.taotao.common.pojo.SearchResult;
 public class SearchDao {
 	@Autowired
 	private SolrServer solrServer;
+
+	@Autowired
+	private SearchItemMapper mapper;
+
 	/**
 	 * 根据查询的条件查询商品的结果集
 	 * @param query
@@ -77,5 +84,25 @@ public class SearchDao {
 		//5.设置SearchResult 的属性
 		searchResult.setItemList(itemlist);
 		return searchResult;
+	}
+
+	public TaotaoResult updateSearchItemById(Long itemId) throws Exception {
+		//1.调用mapper中的方法
+		SearchItem searchItem = mapper.getItemById(itemId);
+		//2.创建solrinputdocument
+		SolrInputDocument document = new SolrInputDocument();
+		//3.向文档中添加域
+		document.addField("id", searchItem.getId());
+		document.addField("item_title", searchItem.getTitle());
+		document.addField("item_sell_point", searchItem.getSell_point());
+		document.addField("item_price", searchItem.getPrice());
+		document.addField("item_image", searchItem.getImage());
+		document.addField("item_category_name", searchItem.getCategory_name());
+		document.addField("item_desc", searchItem.getItem_desc());
+		//4.添加文档到索引库中
+		solrServer.add(document);
+		//5.提交
+		solrServer.commit();
+		return TaotaoResult.ok();
 	}
 }

@@ -9,6 +9,10 @@
 	<artifactId>taotao-search-service</artifactId>
 	<packaging>war</packaging>
 	<dependencies>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+		</dependency>
 		<!-- 添加接口的依赖 -->
 		<dependency>
 			<groupId>com.taotao</groupId>

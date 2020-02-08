@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
@@ -18,12 +20,27 @@ import com.taotao.pojo.TbItemDesc;
 import com.taotao.pojo.TbItemExample;
 import com.taotao.service.ItemService;
 
+import javax.annotation.Resource;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+import javax.print.attribute.standard.Destination;
+
 @Service
 public class ItemServiceImpl implements ItemService {
 @Autowired
 private TbItemMapper mapper;
 @Autowired
 private TbItemDescMapper descmapper;
+
+@Autowired
+private JmsTemplate jmsTemplate;
+
+//@Autowired
+@Resource
+private javax.jms.Destination topicDestination;
+
 	@Override
 	public EasyUIDataGridResult getItemList(Integer page, Integer rows) {
 		//1.设置分页的信息 使用pagehelper
@@ -47,7 +64,7 @@ private TbItemDescMapper descmapper;
 	@Override
 	public TaotaoResult saveItem(TbItem item, String desc) {
 		//生成商品的id
-		long itemId = IDUtils.genItemId();
+		final long itemId = IDUtils.genItemId();
 		//1.补全item 的其他属性
 		item.setId(itemId);
 		item.setCreated(new Date());
@@ -65,8 +82,22 @@ private TbItemDescMapper descmapper;
 		//4.插入商品描述数据
 			//注入tbitemdesc的mapper
 		descmapper.insertSelective(desc2);
+
+
+		//MQ发送toptic消息,更新solr索引库
+		jmsTemplate.send(topicDestination, new MessageCreator() {
+			@Override
+			public Message createMessage(Session session) throws JMSException {
+				TextMessage tmsg = session.createTextMessage("" + itemId);
+				return tmsg;
+			}
+		});
+
+
+
 		//5.返回taotaoresult
 		return TaotaoResult.ok();
 	}
+
 
 }
