@@ -1,0 +1,28 @@
+01-项目简介 - done    20200108
+02-Dubbo服务 - done  20200108
+03-Nginx,类目选择,新增商品 - done  20200108
+	3.1 /etc/hosts 做DNS (switchHosts) 
+	3.2 Ngnix 做端口转发 （本地与docker) 暂未处理
+04-	CMS - done  20200115
+05-	轮播图与Redis - done  20200118
+	5.1 Redis-cluster 环境搭建没有处理
+06- Solr --
+	6.1 先上Solr,后面替换成ES
+08 - MQ
+	1.activemq和jdk版本对应关系(未找到官方文档)
+	apache-activemq-5.14.0 1.7.0_80 1.7+
+    apache-activemq-5.15.0 1.8.0_112 1.8+    
+
+
+
+taotao-manager      8880
+taotao-manager-web 	8881
+taotao-portal-web	8882
+taotao-content 		8883
+taotao-search 		8884
+taotao-search-web  	8885
+taotao-item-web     8886
+
+
+
+
