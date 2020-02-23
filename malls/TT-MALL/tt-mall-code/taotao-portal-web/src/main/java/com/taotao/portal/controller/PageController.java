@@ -48,7 +48,7 @@ public class PageController {
 	 * 展示首页
 	 * @return
 	 */
-	//接收URL的请求http://localhost:8082/index.html
+	//接收URL的请求http://mytmall.com:8882/index.html
 	@RequestMapping("/index")
 	public String showIndex(Model model){
 		List<TbContent> contentList = service.getContentListByCatID(categoryId);

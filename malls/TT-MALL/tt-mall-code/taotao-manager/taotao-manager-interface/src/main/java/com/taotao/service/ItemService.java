@@ -3,6 +3,7 @@ package com.taotao.service;
 import com.taotao.common.pojo.EasyUIDataGridResult;
 import com.taotao.common.pojo.TaotaoResult;
 import com.taotao.pojo.TbItem;
+import com.taotao.pojo.TbItemDesc;
 
 /**
  * 商品相关的处理的service
@@ -28,4 +29,8 @@ public interface ItemService {
 	 * @return
 	 */
 	public TaotaoResult saveItem(TbItem item,String desc);
+
+    TbItem getItemById(Long itemId);
+
+	TbItemDesc getItemDescById(Long itemId);
 }
