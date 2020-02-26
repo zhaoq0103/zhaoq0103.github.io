@@ -77,6 +77,7 @@ public class ItemChangeGenHtmMessageListener implements MessageListener {
 		
 		//4.输出
 		//样式文件如何访问，路径是怎么样的？
+        //冷启动时生成一部分数据，增加和修改商品时再动态更新
 		Writer writer = new FileWriter(new File(itemHtmlPath + "/item"+"/"+item.getId()+".html"));
 		
 		template.process(model, writer);
