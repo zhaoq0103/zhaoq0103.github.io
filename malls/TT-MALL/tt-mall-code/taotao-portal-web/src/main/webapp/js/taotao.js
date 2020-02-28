@@ -5,7 +5,7 @@ var TT = TAOTAO = {
 			return ;
 		}
 		$.ajax({
-			url : "http://mytmall.com:8884/user/token/" + _ticket,
+			url : "http://mytmall.com:8888/user/token/" + _ticket,
 			dataType : "jsonp",
 			type : "GET",
 			success : function(data){
