@@ -79,7 +79,7 @@
 					if (data.status == 200) {
 						alert("登录成功！");
 						if (redirectUrl == "") {
-							location.href = "http://localhost:8882";
+							location.href = "http://mytmall.com:8882";
 						} else {
 							location.href = redirectUrl;
 						}
