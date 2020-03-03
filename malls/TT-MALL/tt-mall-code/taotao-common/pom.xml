@@ -10,6 +10,12 @@
 	<artifactId>taotao-common</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<dependencies>
+		<!--<dependency>-->
+			<!--<groupId>org.csource</groupId>-->
+			<!--<artifactId>fastdfs-client-java</artifactId>-->
+			<!--<version>1.27-RELEASE</version>-->
+		<!--</dependency>-->
+
 		<!-- 时间操作组件 -->
 		<dependency>
 			<groupId>joda-time</groupId>
