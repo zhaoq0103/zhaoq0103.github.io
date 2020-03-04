@@ -99,7 +99,12 @@
 		<artifactId>activemq-client</artifactId>
 		<version>5.13.4</version>
 	</dependency>
-	
+	   <dependency>
+		   <groupId>org.apache.activemq</groupId>
+		   <artifactId>activemq-core</artifactId>
+		   <version>5.7.0</version>
+	   </dependency>
+
    </dependencies>
   
   <build>  
@@ -110,7 +115,7 @@
 				<version>2.2</version>
 				<configuration>
 					<!-- 指定端口 -->
-					<port>9006</port>
+					<port>8903</port>
 					<!-- 请求路径 -->
 					<path>/</path>
 				</configuration>

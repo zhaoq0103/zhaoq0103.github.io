@@ -90,7 +90,7 @@
 				<version>2.2</version>
 				<configuration>
 					<!-- 指定端口 -->
-					<port>9108</port>
+					<port>8908</port>
 					<!-- 请求路径 -->
 					<path>/</path>
 				</configuration>
