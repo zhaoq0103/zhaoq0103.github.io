@@ -5,6 +5,26 @@
 	<artifactId>taotao-parent</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
+<!-- 	<modules>
+		<module></module>
+	</modules> -->
+	<modules>
+		<module>taotao-cart</module>
+  		<module>taotao-cart-web</module>
+  		<module>taotao-common</module>
+  		<module>taotao-content</module>
+  		<module>taotao-item-web</module>
+  		<module>taotao-manager</module>
+  		<module>taotao-manager-web</module>
+  		<module>taotao-order</module>
+		<module>taotao-order-web</module>
+  		<module>taotao-portal-web</module>
+ 		<module>taotao-search</module>
+  		<module>taotao-search-web</module>
+ 		<module>taotao-sso</module>
+  		<module>taotao-sso-web</module>
+    </modules>
+
 	<!-- 集中定义依赖版本号 -->
 	<properties>
 		<junit.version>4.12</junit.version>
