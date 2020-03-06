@@ -106,7 +106,7 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<port>8892</port>
+					<port>8807</port>
 					<path>/</path>
 				</configuration>
 			</plugin>

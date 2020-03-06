@@ -117,7 +117,7 @@
 	var REGISTER={
 		param:{
 			//单点登录系统的url
-			surl:"http://sso.mytmall.com:8888"
+			surl:"http://sso.mytmall.com"
 		},
 		inputcheck:function(){
 				//不能为空检查
