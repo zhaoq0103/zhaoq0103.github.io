@@ -8,11 +8,18 @@
         http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+
+
     <dubbo:protocol name="dubbo" port="20886"></dubbo:protocol> 
-    
+    <!--<dubbo:provider timeout="300000" />-->
 	<dubbo:application name="pinyougou-user-service"/>  
-    <dubbo:registry address="zookeeper://zkOS:2181"/>
-    <dubbo:annotation package="com.pinyougou.user.service.impl" />  
-   
+    <dubbo:registry protocol="zookeeper" address="zkOS:2181" timeout="300000"/>
+    <!--<dubbo:annotation package="com.pinyougou.user.service.impl" />-->
+
+    <bean id="userServiceImpl" class="com.pinyougou.user.service.impl.UserServiceImpl" />
+    <bean id="addressServiceImpl" class="com.pinyougou.user.service.impl.AddressServiceImpl" />
+
+	<dubbo:service interface="com.pinyougou.user.service.UserService" ref="userServiceImpl" timeout="300000"/>
+	<dubbo:service interface="com.pinyougou.user.service.AddressService" ref="addressServiceImpl" timeout="300000"/>
    
 </beans>

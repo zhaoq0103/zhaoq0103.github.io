@@ -29,7 +29,7 @@
 
 	<!-- 引用dubbo 服务 -->
 	<dubbo:application name="pinyougou-portal-web" />
-	<dubbo:registry address="zookeeper://zkOS:2181"/>
+	<dubbo:registry protocol="zookeeper" address="zkOS:2181" />
 	<dubbo:annotation package="com.pinyougou.portal.controller" />  	
 
 </beans>

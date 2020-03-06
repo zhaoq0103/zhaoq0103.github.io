@@ -52,7 +52,9 @@
 		<commons-fileupload.version>1.3.1</commons-fileupload.version>
 		<jedis.version>2.7.2</jedis.version>
 		<solrj.version>4.10.3</solrj.version>
-		<dubbo.version>2.5.3</dubbo.version>
+        <!--测试Dubbo不同版本对系统的影响-->
+		<!--<dubbo.version>2.5.3</dubbo.version>-->
+		<dubbo.version>2.8.4</dubbo.version>
 		<zookeeper.version>3.4.7</zookeeper.version>
 		<zkclient.version>0.1</zkclient.version>
 		<activemq.version>5.13.0</activemq.version>
@@ -239,6 +241,13 @@
 				<groupId>com.alibaba</groupId>
 				<artifactId>dubbo</artifactId>
 				<version>${dubbo.version}</version>
+                <!--如果是2.8.4，需要排除这个依赖，2.5.3不需要排除-->
+                <exclusions>
+                    <exclusion>
+                        <groupId>javax.servlet</groupId>
+                        <artifactId>javax.servlet-api</artifactId>
+                    </exclusion>
+                </exclusions>
 			</dependency>
 			<dependency>
 				<groupId>org.apache.zookeeper</groupId>
