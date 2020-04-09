@@ -16,7 +16,7 @@ Date.prototype.format = function(format){
 	    	format = format.replace(RegExp.$1, RegExp.$1.length==1 ? o[k] : ("00"+ o[k]).substr((""+ o[k]).length)); 
 	    } 
     } 
-    return format; 
+    return format;
 };
 
 var TT = TAOTAO = {
@@ -25,7 +25,7 @@ var TT = TAOTAO = {
 		//指定上传文件参数名称
 		filePostName  : "uploadFile",
 		//指定上传文件请求的url。
-		uploadJson : '/pic/upload',
+		uploadJson : '/pics/upload',
 		//上传类型，分别为image、flash、media、file
 		dir : "image"
 	},
@@ -78,12 +78,14 @@ var TT = TAOTAO = {
         			editor.plugin.multiImageDialog({
 						clickFn : function(urlList) {
 							var imgArray = [];
+
 							KindEditor.each(urlList, function(i, data) {
 								imgArray.push(data.url);
 								// 回显图片
 								form.find(".pics ul").append("<li><a href='"+data.url+"' target='_blank'><img src='"+data.url+"' width='80' height='50' /></a></li>");
 							});
 							form.find("[name=image]").val(imgArray.join(","));
+
 							editor.hideDialog();
 						}
 					});

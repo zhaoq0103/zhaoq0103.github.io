@@ -15,6 +15,11 @@
 			<!--<artifactId>fastdfs-client-java</artifactId>-->
 			<!--<version>1.27-RELEASE</version>-->
 		<!--</dependency>-->
+		<!--手动mvn install fastdfs jar 包-->
+		<dependency>
+			<groupId>org.csource.fastdfs</groupId>
+			<artifactId>fastdfs</artifactId>
+		</dependency>
 
 		<!-- 时间操作组件 -->
 		<dependency>
