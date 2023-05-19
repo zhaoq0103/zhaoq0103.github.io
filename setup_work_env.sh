@@ -26,7 +26,12 @@ git config --global --unset user.email
 
 
 git config --local  user.name "OnTheWay0103"
+git config --local  user.email "OnTheWay0103@163.com"
+
+
+
 git config --local  user.name "zhaoq0103"
+git config --local  user.email "zhaoq0103@163.com"
 
 
 
