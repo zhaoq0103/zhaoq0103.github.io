@@ -16,3 +16,24 @@ git config --global core.quotepath false
 
 # 确认一下显示中文是否正常
 # git log --stat
+
+# --system, --global, --local
+git config --global --list
+git config --global --unset user.name
+git config --global --unset user.email
+
+
+
+
+git config --local  user.name "OnTheWay0103"
+git config --local  user.name "zhaoq0103"
+
+
+
+# go env setup
+brew install go
+go env -w  GOPROXY=https://goproxy.cn,direct
+
+# go env -w  GO111MODULE="on"
+# export GOPATH="/Users/zhaoq0103/go/resource"
+
