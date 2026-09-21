@@ -108,7 +108,6 @@ command << delimiter
 delimiter
 
 
-
  bash -c "echo '#
     140.252.1.92 aix
     140.252.1.32 solaris
