@@ -1,0 +1,75 @@
+/*body, html {
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+}
+
+.splitter {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+}
+
+.left-panel, .right-panel {
+    flex: 1;
+    min-width: 100px;
+}
+
+.left-panel {
+    background-color: gray;
+    resize: horizontal;
+    overflow: auto;
+}
+
+.right-panel {
+    flex-grow: 1;
+    background-color: whitesmoke;
+}
+
+.split-bar {
+    width: 10px;
+    cursor: ew-resize;
+    background-color: #ccc;
+    position: relative;
+}
+
+
+*/
+
+
+
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.leftSide, .rightSide, .splitter {
+    position: absolute;
+    height: 100%;
+    overflow: hidden;
+}
+
+.splitter {
+    width: 10px;
+    z-index: 100;
+    cursor: col-resize;
+}
+
+.leftSide > div, .rightSide > div {
+    height: 100%;
+    width: 100%;
+    position: relative;
+}
+
+
+
+/* Specific to demo */
+.div-1-content, .div-2-content {
+    margin: auto;
+    text-align: center;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    width: 100%;
+}

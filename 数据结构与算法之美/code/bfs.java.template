@@ -1,0 +1,52 @@
+
+
+private Map<String, Boolean> status = new HashMap<String, Boolean>();
+    private Queue<String> queue = new LinkedList<String>();
+    public void BFSSearch(String startPoint) {
+        //1.把起始点放入queue；
+        queue.add(startPoint);
+        status.put(startPoint, false);
+        bfsLoop();
+    }
+    
+    private void bfsLoop() {
+        while(!queue.isEmpty()) {
+            //  1) 从queue中取出队列头的点；更新状态为已经遍历。
+            String currentQueueHeader = queue.poll(); //出队
+            status.put(currentQueueHeader, true);
+            System.out.println(currentQueueHeader);
+            //  2) 找出与此点邻接的且尚未遍历的点，进行标记，然后全部放入queue中。
+            List<String> neighborPoints = graph.get(currentQueueHeader);
+            for (String poinit : neighborPoints) {
+                if (!status.getOrDefault(poinit, false)) { //未被遍历
+                    if (queue.contains(poinit)) continue;
+                    queue.add(poinit);
+                    status.put(poinit, false);
+                }
+            }
+        }
+    }
+
+
+   // 通用模板
+   
+   void bfs(起始点) {
+    将起始点放入队列中;
+    标记起点访问;
+    while (如果队列不为空) {  // 一般采用while ，当然也可以使用递归
+        访问队列中队首元素x;
+        删除队首元素;
+        for (x 所有相邻点) {
+            if (该点未被访问过且合法) {
+                将该点加入队列末尾;
+            　　if  (该结点是目标状态) {  // 达到目标，提前结束终止循环
+                    置 flag= true;    　　　　　　　　　　　　break; 
+               }
+            }
+        }
+    }
+    队列为空，广搜结束;
+}
+
+
+

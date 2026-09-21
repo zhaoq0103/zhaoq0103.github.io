@@ -1,0 +1,9 @@
+spring:
+  application:
+    # 设置app名称: 和配置有相同的文件名时，才能拉取到config sever 的配置文件
+    #name: ui ??
+    name: WEx-ui
+#    name: myui
+  config:
+    # 导入Config Server地址:
+    import: configserver:${CONFIG_SERVER:http://localhost:8888}

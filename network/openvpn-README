@@ -1,0 +1,16 @@
+openvpn
+
+在虚拟机的docker环境下， 
+aix 安装 openvpn 服务端，
+slip 安装 openvpn 客户端，
+
+然后在aix和slip上监听网络情况，可以抓到数据包,
+
+在gateway上监听,可以发现数据包都是由aix发出来，代理了slip
+
+
+参考：
+
+https://baijiahao.baidu.com/s?id=1786521919339269524&wfr=spider&for=pc
+
+https://blog.csdn.net/2401_84181704/article/details/137868488

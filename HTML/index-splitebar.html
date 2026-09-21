@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Splitter Layout</title>
+<link rel="stylesheet" href="styles.css">
+
+  <!-- <link href="SplitterBar.css" type="text/css" rel="stylesheet"> -->
+    <link href="demo.css" type="text/css" rel="stylesheet">
+
+ <style>
+        #container {
+            height: 100px;
+            background-color: aqua;
+            position: relative;
+            width: 50%;
+            margin: auto;
+        }
+ </style>
+
+</head>
+<body>
+<!--     <div class="splitter">
+        <div class="left-panel"> <p>我是左边栏目 </p> </div>
+        <div class="split-bar" id="splitBar"></div>
+        <div class="right-panel"><p>我是右边内容 </p> </div>
+    </div> -->
+    <script src="script.js"></script>
+
+       <script>
+            // Create a container for the demo
+            // const containerOneHeader = document.createElement('h1');
+            // containerOneHeader.innerHTML = 'Simple SplitPane';
+            // document.body.appendChild(containerOneHeader);
+
+            const containerOne = document.createElement('div');
+            containerOne.classList.add('containerOne');
+            containerOne.id = 'container';
+            document.body.appendChild(containerOne);
+
+
+
+            const div1 = document.createElement('div');
+            div1.style.backgroundColor = 'yellow';
+
+            const div2 = document.createElement('div');
+            div2.style.backgroundColor = 'green';
+
+
+            const div1Content = document.createElement('div');
+            div1Content.innerHTML = 'Left side';
+            div1Content.classList.add('div-1-content')
+            div1.appendChild(div1Content);
+
+            const div2Content = document.createElement('div');
+            div2Content.innerHTML = 'Right side';
+            div2Content.classList.add('div-2-content')
+            div2.appendChild(div2Content);
+
+            const splitterBar = new SplitterBar(containerOne, div1, div2);
+        </script>
+</body>
+</html>

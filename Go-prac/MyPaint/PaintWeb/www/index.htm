@@ -1,0 +1,46 @@
+<html>
+<head>
+    <title>QPaint (by Qiniu.com)</title>
+    <link rel="stylesheet" href="/base/spectrum.css" type="text/css" />
+</head>
+<body>
+<style>
+#drawing{border:1px solid lightgray}
+/*测试多个画布*/
+/* #drawing1{border:1px solid lightgray}
+#drawing2{border:1px solid lightgray} */
+</style>
+
+<div id="menu"> </div><br>
+<!-- <canvas id="drawing"  width="512" height="330">你的浏览器不支持Canvas！</canvas>
+-->
+<!-- 1个画布 -->
+<div id="drawing" type="PaintView" width="512" height="360"></div>
+
+<!-- 测试多个画布 -->
+<!-- <div id="drawing1" type="PaintView" width="512" height="360"></div>
+<div id="drawing2" type="PaintView" width="512" height="360"></div> -->
+
+<script src="/base/jquery.js"></script>
+<script src="/base/spectrum.js"></script>
+<script src="controls/base.js?v=7"></script>
+<script src="controls/BaseLineWidthPicker.js?v=7"></script>
+<script src="controls/BaseColorPicker.js?v=7"></script>
+<script src="controls/ColorPicker.js?v=7"></script>
+
+<script src="dom.js?v=1"></script>
+<script src="view.js?v=0"></script>
+<script src="creator/pathController.js?v=0"></script>
+<script src="creator/freepathController.js?v=0"></script>
+<script src="creator/rectController.js?v=0"></script>
+<script src="accel/menu.js?v=1"></script> 
+<script src="accel/selectController.js?v=1"></script> 
+
+<script src="PaintView.js?v=7"></script>
+<script>
+    // initPaintView("drawing")
+    qcontrols.init()
+</script>
+
+</body>
+</html>

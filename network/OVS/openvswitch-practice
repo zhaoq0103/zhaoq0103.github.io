@@ -1,0 +1,38 @@
+#2023
+	
+Linux iproute2 命令家族
+https://blog.csdn.net/weixin_44983653/article/details/97620406
+
+#man ip
+ip link: network device
+ip route：routing table entry  ## ip rule
+ip addr :ip layer
+ip netns ：manage network namespaces
+
+
+================================================test 08 vlan================================================================
+
+
+
+================================================test 10 QoS================================================================
+
+
+================================================test 11 GRE VXLAN， ipsec================================================================
+
+
+
+================================================test 15 flow================================================================
+
+flow-env-setup.sh
+
+sudo ovs-ofctl show test_br #查看端口序号
+sudo ovs-vsctl list interface xxxx|grep 'ofport '|awk '{print $3}'
+
+ping -I 10.0.0.1 -c 2  10.0.0.2
+
+sudo tcpdump -n -e -i br-int-pair
+sudo tcpdump -n -e -i enp0s1
+
+
+
+

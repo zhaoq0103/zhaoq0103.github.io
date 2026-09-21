@@ -1,0 +1,99 @@
+#practice
+
+--------------------------------MAC JAVA DEV ENV SET UP----------------------------------------------------
+我使用最新的JAVA JDK19
+
+修改系统环境变量：
+在~/.bash_profile（如果是Zsh，修改~/.zshrc）文件中添加如下内容：
+# JDK 8
+export JAVA_8_HOME="/Library/Java/JavaVirtualMachines/zulu-8.jdk/Contents/Home"
+# JDK 19
+export JAVA_19_HOME="/Library/Java/JavaVirtualMachines/jdk-19.jdk/Contents/Home"
+ 
+export JAVA_HOME=$JAVA_19_HOME #默认JDK 19
+ 
+#alias命令动态切换JDK版本 
+alias jdk19="export JAVA_HOME=$JAVA_19_HOME"
+alias jdk8="export JAVA_HOME=$JAVA_8_HOME"
+
+
+export PATH=$JAVA_HOME/bin:$PATH
+
+#/usr/libexec/java_home -V
+source ~/.config_file   source .zprofile
+
+
+----------------------------------JAVA MULTI THREAD --------------------------------------------------
+JVM允许同一个线程重复获取同一个锁，这种能被同一个线程反复获取的锁，就叫做可重入锁
+
+获取多个锁的时候，不同线程获取多个不同对象的锁可能导致死锁
+如何避免死锁呢？答案是：线程获取锁的顺序要一致
+
+多线程协调运行的原则就是：当条件不满足时，线程进入等待状态；当条件满足时，线程被唤醒，继续执行任务
+
+
+
+Java 19引入的一种轻量级线程，它在很多其他语言中被称为协程、纤程、绿色线程、用户态线程
+添加参数--enable-preview启用
+参考class版本说明：https://www.liaoxuefeng.com/wiki/1252599548343744/1476084948271136
+java --source 19 --enable-preview Main.java
+
+
+命令行可以正确执行，在IDE中始终没有配置好参数，各种错误提示
+修改了project setting , module setting, run configurations, maven config 4处，也不行
+
+可以高效执行IO密集型任务
+
+创建：
+startVirtualThread()
+Thread.ofVirtual().unstarted()
+Thread.ofVirtual().factory().newThread()
+任务调度：
+Executors.newVirtualThreadPerTaskExecutor()
+
+
+
+
+----------------------------------NETWORK --------------------------------------------------
+
+
+UDP端口和TCP端口虽然都使用0~65535，但他们是两套独立的端口，即一个应用程序用TCP占用了端口1234，不影响另一个应用程序用UDP占用端口1234。
+
+
+----------------------------------MAVEN --------------------------------------------------
+https://search.maven.org/   查找maven依赖
+
+----------------------------------PATTERN --------------------------------------------------
+参考：	https://www.liaoxuefeng.com/wiki/1252599548343744/1281319214514210
+@Component // 表示一个单例组件
+
+《单例陷阱》，参考：顺序一致性理论内存模型,指令重排序
+https://www.cnblogs.com/lkxsnow/p/12293791.html
+
+《Java内存模型(Java Memory Model，JMM)》 参考：
+https://mp.weixin.qq.com/s?__biz=MzU0OTE4MzYzMw==&mid=2247533850&idx=4&sn=7477c8346a738e9a234c3b85f1cd0bc4&chksm=fbb1cce4ccc645f238e66ee5d45c9aa85c51f47987a8719e035b51ec8d49c75457b18a1dfae3&scene=27
+
+public class Singleton {
+	//加入volatile关键字，即可实现线程安全的单例模式
+    private static volatile Singleton singleton;
+    private Singleton() {
+    }
+
+    public static Singleton getInstance() {
+        if (singleton == null) {
+            synchronized (Singleton.class) {
+                if (singleton == null) {
+                    singleton = new Singleton();
+                }
+            }
+        }
+        return singleton;
+    }
+}
+
+
+
+
+
+手机游戏外挂：
+https://blog.csdn.net/weixin_43679037/article/details/123979623

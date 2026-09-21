@@ -1,0 +1,136 @@
+const loginPostRequest = {
+    url: 'https://adminapi.yeahgo.com/auth/login/checkLogin',
+    method: 'POST',//请求方法
+    header: [{
+              "key": "Content-Type",
+              "value": "application/json"
+            }],//请求头部
+    body: {
+      mode: 'raw',//数据类型
+      raw: JSON.stringify(
+          { 'name': 'zhaoqiang',
+            'passwd': '123456'
+          })
+    }
+  };
+  
+  // 可以处理成过期后自动登录 - todo，设置一个token超时时间，定时清空admin-token
+  if(pm.environment.get("admin-token")){
+      console.log("using cached admin-token");
+  }else{
+      // 发送请求
+      pm.sendRequest(loginPostRequest, function (err, res) {
+          // console.log(err ? err : res.json().data.token);
+          var token = res.json().data.token;
+          if(token.length > 0){
+              //   pm.variables.set("admin-token1",token);
+              pm.environment.set("admin-token", token); 
+          }else{
+              console.log("err happend.....");
+          }
+      });
+  }
+
+
+
+  const toCheckPhones = [
+    '15816272827',
+    '13229806273',
+    '13076624133'
+];
+
+pm.environment.set("toCheckPhonesLength", toCheckPhones.length);
+
+// phoneNumber i
+// toCheckPhonesIndex j
+// init i j 
+var toCheckPhonesIndex = pm.environment.get("toCheckPhonesIndex");
+console.log("pre toCheckPhonesIndex: " + toCheckPhonesIndex);
+if(toCheckPhonesIndex == null ){
+    pm.environment.set("toCheckPhonesIndex", 0);
+    pm.environment.set("toCheckPhonesIndexPre", 0);
+}
+
+if(pm.environment.get("phoneNumber") == null){//init
+        pm.environment.set("phoneNumber", toCheckPhones[0]);
+}else{
+    if(toCheckPhonesIndex != pm.environment.get("toCheckPhonesIndexPre")){//j updated,check next group
+        pm.environment.set("toCheckPhonesIndexPre", toCheckPhonesIndex);
+        pm.environment.set("phoneNumber", toCheckPhones[toCheckPhonesIndex]);
+        console.log("pre: check next group " + toCheckPhonesIndex);
+    }
+}
+
+console.log("prepare to check: " + pm.environment.get("phoneNumber"));
+
+
+
+pm.test("getInviteList1", function () {
+    pm.response.to.have.status(200);
+
+    console.log("after: if 登录过期：" + pm.response.json())
+    // if(){//登录过期，清除token
+
+    // }
+
+    //需要检测环的情况
+    //需要输出在大团队的名单
+
+});
+
+// 实际业务处理
+const teamleaderPhones = [
+'13425222366',
+'15947360440',
+'15912903273',
+'19879154314',
+'15918593316',
+'18250019858',
+'15073494069',
+'18079487577',
+'13186643555',
+'13347637288',
+'13169841345',
+'18883588493',
+'13881899328',
+'17785727648',
+'15903124268',
+'17363733918',
+'13769836855'
+];
+
+
+ // update i j 
+  var phone = pm.response.json().data.memberInviteInfoDTO.invitePhoneNumber;
+  console.log("after: next parent phone:" + phone);
+
+  if(teamleaderPhones.includes(phone)){  //j++
+      console.log("after:" + phone + "  是大团队成员.....");
+      toCheckPhonesNextIndex();
+  }else{ //i++
+    //   pm.environment.unset("phoneNumber");  
+      if(phone != null && phone.length > 0){
+        pm.environment.set("phoneNumber", phone);  
+        console.log("after phoneNumber,i++:" + pm.environment.get("phoneNumber"));     
+        postman.setNextRequest("getInviteList");
+      }else{ //j++
+        console.log("  没有找到推荐人，继续下一组,j++.....");
+        toCheckPhonesNextIndex();
+      }
+  }
+
+
+  function toCheckPhonesNextIndex(){
+    var phoneIndex = pm.environment.get("toCheckPhonesIndex");
+    var toCheckPhonesIndex = phoneIndex + 1;
+      pm.environment.set("toCheckPhonesIndex", toCheckPhonesIndex);
+      var toCheckPhonesLength = pm.environment.get("toCheckPhonesLength");
+      if( toCheckPhonesIndex > 0 && toCheckPhonesIndex < toCheckPhonesLength ){
+              postman.setNextRequest("getInviteList");
+      }else{
+              //terminal
+              pm.environment.unset("phoneNumber");
+      }
+  }
+
+

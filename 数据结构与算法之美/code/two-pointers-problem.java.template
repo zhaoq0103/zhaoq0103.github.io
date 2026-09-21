@@ -1,0 +1,51 @@
+
+
+
+// 字符串反转
+
+public void reverseString(char[] s) {
+        if (s.length == 0 || s.length == 1) return ;
+        int left = 0;
+        int right = s.length-1;
+        while (left <right) {
+            char temp = s[left];
+            s[left++] = s[right];
+            s[right--] = temp;
+        }
+        return ;
+    }
+
+
+// 环的检测
+// 下面这两篇文章写的很透彻
+// https://blog.csdn.net/weixin_67596609/article/details/129470152
+// https://zhuanlan.zhihu.com/p/361049436
+
+public ListNode detectCycle(ListNode head) {
+    ListNode slow = head;
+    ListNode fast = head;
+
+    // 判断是否存在环
+    while (fast != null && fast.next != null) {
+        slow = slow.next;
+        fast = fast.next.next;
+
+        if (slow == fast) {
+            break;  // 相遇点
+        }
+    }
+
+    if (fast == null || fast.next == null) {
+        return null;  // 无环
+    }
+
+    // 寻找环的起始位置， 这段代码有用？仔细思考一下
+    slow = head;
+
+    while (slow != fast) {
+        slow = slow.next;
+        fast = fast.next;
+    }
+
+    return slow;
+}

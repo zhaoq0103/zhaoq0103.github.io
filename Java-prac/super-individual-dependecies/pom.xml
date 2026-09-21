@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.ai.x</groupId>
+    <artifactId>super-individual-dependecies</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>super-individual-dependecies-service</module>
+    </modules>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>19</maven.compiler.source>
+        <maven.compiler.target>19</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <branch></branch>
+
+        <junit.version>5.10.0</junit.version>
+        <logback.version>1.4.11</logback.version>
+        <slf4j.version>2.0.9</slf4j.version>
+
+        <bytebuddy.version>1.14.8</bytebuddy.version>
+        <freemarker.version>2.3.32</freemarker.version>
+        <hikaricp.version>5.0.1</hikaricp.version>
+        <jackson.version>2.14.2</jackson.version>
+        <jakarta.annotation.version>2.1.1</jakarta.annotation.version>
+        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+        <snakeyaml.version>2.2</snakeyaml.version>
+        <sqlite.version>3.41.2.1</sqlite.version>
+        <tomcat.version>10.1.7</tomcat.version>
+
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>${logback.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+
+    <distributionManagement>
+<!--        设置 deploy 环境-->
+<!--        <snapshotRepository>-->
+<!--            <id>snapshots</id>-->
+<!--            <name>Nexus Snapshots Repository</name>-->
+<!--            <url>http://120.78.188.178:18081/repository/maven-snapshots/</url>-->
+<!--        </snapshotRepository>-->
+<!--        <repository>-->
+<!--            <id>release</id>-->
+<!--            <name>Nexus Release Repository</name>-->
+<!--            <url>http://120.78.188.178:18081/repository/maven-releases/</url>-->
+<!--        </repository>-->
+    </distributionManagement>
+</project>

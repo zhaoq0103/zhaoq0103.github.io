@@ -1,0 +1,63 @@
+百度https 抓包数据分析：
+
+三次握手部分：
+总长 78字节
+链路层： 14个字节  6 dst + 6 src + 2 versin
+IP层：	20字节   总长度，版本等（ipv4)
+TCP层： 44字节   20 header + 24 options
+
+TLSv1.2部分：（总长度在哪里？ ）
+tls header : 5 
+tls record layer:  length 标志
+tls segment data:
+
+tls 中可以查看解密的数据
+
+
+
+
+
+
+
+channels.weixin.qq.com/web/pages/feed?oid=xtFAIADnCWk&nid=2I20WPuqDi0&context_id=33-9-141-92a51719200728da5cc46c314894a2211709973895927&entrance_id=1002&req_time=1707836034&exportkey=n_ChQIAhIQlnZnyQbWwaBMdfq%2Bu%2B107xKPAgIE97dBBAEAAAAAAHKwGAAa2%2FgAAAAOpnltbLcz9gKNyK89dVj0jdENmgk8raZUuXc%2F3mBgZG5lJD%2FTDDtu9Sl3tq8XC7Q%2B0cIC523sC7z3anN4YlFl9n8%2BerXhfbCBHvMaIF5OZWNBzQn%2BjoXPSeJXYY3u8MLi8RQ3M7KnljilCuhmdj04eFI3WrKWD2awK5ox7rP6p3GA6duAJtgG11EUSs4KSbD6Cmu5kSWZB8E2pa3MstANLnc4svwOZuK9wZGHJqk6Bj8UlhhT9APRpr4P92m0hXn7nqu7upBJkYnnhZt19NPriZyZrPIw9Y9NtLEHcrf5eMHyz4FNBJ%2BKAYEn3Yg3PCjHqY15VXwgGJA%3D&pass_ticket=FeKaT%2F9hZiUD3SKcNaUsguTmnodbh01qga7RmQ8HCRyRylTs90OGRYFRs4cpq6Z4hHjIaX6S0lWAwvhUOEqZrw%3D%3D&wx_header=0
+
+
+
+下载一个视频回来，试一下能不能解密播放
+
+
+视频主图：
+https://finder.video.qq.com/251/20350/stodownload?encfilekey=oibeqyX228riaCwo9STVsGLIBn9G5YG8ZnCKT59pcrKBg3aqk9AXyZQBF5tmP5nNa2KFbWEbAC3GE30pX6o2CTaJkezQEP7tmpNslOkeKsV0heiagK64XbWDtPzDn4UHzyFsrOlIW4kCXU&bizid=1023&dotrans=0&hy=SZ&idx=1&m=1c230ca6e0d5c0ebb7e508de488028b6&token=6xykWLEnztKIzBicPuvgFxmbMhrWCicFdARyz4CkqkCCuNicsEyGytlWibabib8UKdpbzWOGSUcnhYwwdBIUM4R6VNOxYgGSOLejw1j3SaF6o6UbKej6Rx2eNmA&ctsc=3-141
+
+
+视频片段：
+https://finder.video.qq.com/251/20302/stodownload?encfilekey=Cvvj5Ix3eez3Y79SxtvVL0L7CkPM6dFibusn4vVFEyiaqCBibR68DA8t9ZUAuq696eaVCdruo1etVtc85jICLjEOTiauiaXwezia2edubEW2lVhMP3YqaYcRGb18ezKv0PSzsGxJXZZ3mEgKng7PTUuliaRGg&bizid=1023&dotrans=0&hy=SZ&idx=1&m=dd1c14b547aa7856eda42eefb376d96a&upid=500250&web=1&token=Cvvj5Ix3eez97Zf6tIkrGiaibWUQT4qSIoLzmnia896eEkt4ZNG614qRcyBCBibVLHfu3A0ZribZ5yMq1LId6y8aLnZtu03dBvBLFku5j8KtmiazlFiaafBhFryjCI2HX845yWD&ctsc=141&extg=10f0000&ftype=107&svrbypass=AAuL%2FQsFAAABAAAAAADWOrLbKgh4eeRmYiXsZRAAAADnaHZTnGbFfAj9RgZXfw6VVhYJo64FfuiTik7rNmZxAr9voUqqTQaW%2Bw7pbWPuTx1xafwae4kCSjc%3D&svrnonce=1709974882&taskid=pc-1709974882858789978&fexam=1&X-snsvideoflag=xWT156
+
+
+
+
+GET https://finder.video.qq.com/251/20302/stodownload?encfilekey=Cvvj5Ix3eez3Y79SxtvVL0L7CkPM6dFibusn4vVFEyiaqCBibR68DA8t9ZUAuq696eaVCdruo1etVtc85jICLjEOTiauiaXwezia2edubEW2lVhMP3YqaYcRGb18ezKv0PSzsGxJXZZ3mEgKng7PTUuliaRGg&bizid=1023&dotrans=0&hy=SZ&idx=1&m=dd1c14b547aa7856eda42eefb376d96a&upid=500250&web=1&token=Cvvj5Ix3eez97Zf6tIkrGiaibWUQT4qSIoLzmnia896eEkt4ZNG614qRcyBCBibVLHfu3A0ZribZ5yMq1LId6y8aLnZtu03dBvBLFku5j8KtmiazlFiaafBhFryjCI2HX845yWD&ctsc=141&extg=10f0000&ftype=107&svrbypass=AAuL%2FQsFAAABAAAAAADWOrLbKgh4eeRmYiXsZRAAAADnaHZTnGbFfAj9RgZXfw6VVhYJo64FfuiTik7rNmZxAr9voUqqTQaW%2Bw7pbWPuTx1xafwae4kCSjc%3D&svrnonce=1709974882&taskid=pc-1709974882858789978&fexam=1&X-snsvideoflag=xWT156 HTTP/2
+host: finder.video.qq.com
+user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 NetType/WIFI MicroMessenger/6.8.0(0x16080000) MacWechat/3.8.6(0x13080612) XWEB/1156 Flue
+accept: */*
+origin: https://channels.weixin.qq.com
+sec-fetch-site: same-site
+sec-fetch-mode: cors
+sec-fetch-dest: empty
+accept-encoding: identity
+accept-language: en-US,en;q=0.9
+range: bytes=1395693-1572863
+
+
+
+
+1、门诊系统智能诊疗项目联调测试，演示版本上线						
+2、2.7.27 大供应链版本开发						
+3、3月份临时补充优需求开发联调						
+
+
+大健康门店推广活动主页出图和研发支持及跟进						
+约购V2.7.27和V2.7.28的需求任务分解和排期						
+大健康供应链检测产品下单签署合同的研发支持						
+诊所接诊页面，根据主诉对应的推荐诊断json数据的整理						
+处理客服 、运营、采购的各项问题，提供技术支持和数据支持						

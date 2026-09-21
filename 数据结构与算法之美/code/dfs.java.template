@@ -1,0 +1,27 @@
+
+// 用于记录某个节点是否访问过　　 private Map<String, Boolean> status = new HashMap<String, Boolean>();　　// 用于保存访问过程中的节点
+    private Stack<String> stack = new Stack<String>();　　// 入口，这里选择 1 为入口
+    public void DFSSearch(String startPoint) {
+        stack.push(startPoint);
+        status.put(startPoint, true);
+        dfsLoop();
+    }
+    private void dfsLoop() {　　　　　// 到达终点，结束循环
+        if(stack.empty()){ 
+            return;
+        }
+        // 查看栈顶元素，但并不出栈
+        String stackTopPoint = stack.peek();
+        // 找出与此点邻接的且尚未遍历的点，进行标记，然后全部放入list中。
+        List<String> neighborPoints = graph.get(stackTopPoint);
+        for (String point : neighborPoints) {
+            if (!status.getOrDefault(point, false)) { //未被遍历
+                stack.push(point);　　　　　　　　　 // 加上已访问标记
+                status.put(point, true);
+                dfsLoop();
+            }
+        }　　　　 // 如果邻接点都被访问了，那么就弹出，相当于是恢复操作，也就是在递归后面做的。
+        String popPoint =  stack.pop();
+        System.out.println(popPoint);
+    }
+    

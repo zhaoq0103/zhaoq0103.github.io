@@ -1,0 +1,9 @@
+
+1. 搭建云手机： 手机模拟器也是类似
+	基于ReDroid or Waydroid - 容器方案
+	cuttlefish方案 - 可以自定义内核 对arm支持有限
+	Android studio自带的模拟器avd - 可以自定义内核 对arm支持有限
+	
+文档：
+https://github.com/remote-android/redroid-doc 
+

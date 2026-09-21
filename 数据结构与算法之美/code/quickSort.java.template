@@ -1,0 +1,144 @@
+
+
+/**
+ * 快速排序
+ * @param array
+ */
+public static void quickSort(int[] array) {
+    int len;
+    if(array == null
+            || (len = array.length) == 0
+            || len == 1) {
+        return ;
+    }
+    sort(array, 0, len - 1);
+}
+
+/**
+ * 快排核心算法，递归实现
+ * @param array
+ * @param left
+ * @param right
+ */
+public static void sort(int[] array, int left, int right) {
+    if(left > right) {
+        return;
+    }
+    // base中存放基准数
+    int base = array[left];
+    int i = left, j = right;
+    while(i != j) {
+        // 顺序很重要，先从右边开始往左找，直到找到比base值小的数
+        while(array[j] >= base && i < j) {
+            j--;
+        }
+
+        // 再从左往右边找，直到找到比base值大的数
+        while(array[i] <= base && i < j) {
+            i++;
+        }
+
+        // 上面的循环结束表示找到了位置或者(i>=j)了，交换两个数在数组中的位置
+        if(i < j) {
+            int tmp = array[i];
+            array[i] = array[j];
+            array[j] = tmp;
+        }
+    }
+
+    // 将基准数放到中间的位置（基准数归位）,其实这里本质也是以此交换
+    array[left] = array[i];     
+    array[i] = base;
+
+    // 递归，继续向基准的左右两边执行和上面同样的操作
+    // i的索引处为上面已确定好的基准值的位置，无需再处理
+    sort(array, left, i - 1);
+    sort(array, i + 1, right);
+}
+
+
+
+
+/////////////////////////
+
+ public int findKthLargest(int[] nums, int k) {
+        int len = nums.length;
+        int targetIndex = len - k;
+        int low = 0, high = len - 1;
+        while (true) {
+            int i = partition(nums, low, high);
+            if (i == targetIndex) {
+                return nums[i];
+            } else if (i < targetIndex) {
+                low = i + 1;
+            } else {
+                high = i - 1;
+            }
+        }
+    }
+
+    /**
+     * 分区函数，将 arr[high] 作为 pivot 分区点
+     * i、j 两个指针，i 作为标记“已处理区间”和“未处理区间”的分界点，也即 i 左边的（low~i-1）都是“已处理区”。
+     * j 指针遍历数组，当 arr[j] 小于 pivot 时，就把 arr[j] 放到“已处理区间”的尾部，也即是 arr[i] 所在位置
+     * 因此 swap(arr, i, j) 然后 i 指针后移，i++
+     * 直到 j 遍历到数组末尾 arr[high]，将 arr[i] 和 arr[high]（pivot点） 进行交换，返回下标 i，就是分区点的下标。
+     */
+    private int partition(int[] arr, int low, int high) {
+        int i = low;
+        int pivot = arr[high];
+        for (int j = low; j < high; j++) {
+            if (arr[j] < pivot) {
+                swap(arr, i, j); // 这里交换的目的是为了区分已处理区和非处理区，这里一定需要这一步，i 可能在arr[j]>pivot 的时候停下来，而j还在不停改变；
+                i++;
+            }
+        }
+        swap(arr, i, high);  // 这里注意需要交换
+        return i;
+    }
+
+    private void swap(int[] arr, int i, int j) {
+        int tmp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = tmp;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,34 @@
+use sample_mflix
+
+db.movies.insertOne(
+  {
+    title: "Tiger",
+    genres: [ "Drama", "History" ],
+    runtime: 121,
+    rated: "R",
+    year: 2019,
+    directors: [ "zhaoq" ],
+    cast: [ "Olivia Colman", "Emma Stone", "Rachel Weisz" ],
+    type: "movie"
+  }
+)
+
+
+db.movies.find( { rated: { $in: [ "R" ] } } )
+
+
+
+mongosh mongodb://127.0.0.1:27017
+mongosh --host localhost --port 27017
+
+
+
+
+UML时序图工具：https://www.websequencediagrams.com/
+
+
+
+
+
+
+db.movies.find( { name: { $in: [ "AED宣传员" ] } } )

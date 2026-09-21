@@ -1,0 +1,69 @@
+数据结构之tree
+
+树形结构
+	等叉树
+		直接二叉树
+		二叉树搜索树（二叉树查找树）
+	不等叉树
+
+平衡的概念：
+节点的概念：
+链接的概念：
+
+AVL树中任何节点的两个子树的高度最大差别为1，所以它也被称为高度平衡树
+AVL树（平衡二叉查找树）
+
+从2-3树的角度进行说明：（任意叶子节点到根节点的距离都是相同的）
+
+	2-3树是二叉查找树的变种，树中的2和3代表两种节点，以下表示为2-节点和3-节点。
+	2-节点即普通节点：包含一个元素，两条子链接。
+	3-节点则是扩充版，包含2个元素和三条链接：两个元素A、B，左边的链接指向小于A的节点，
+	中间的链接指向介于A、B值之间的节点，右边的链接指向大于B的节点。
+
+
+java中TreeMap的实现是 红黑树。
+
+
+AVL树、红黑树以及B树介绍 
+参考： https://www.cnblogs.com/sxkgeek/p/9349931.html  写的不是很清楚，有提高空间
+
+B 树（多叉树）
+B+Tree 
+
+
+https://blog.csdn.net/JHIII/article/details/126541835  2-3-4树
+https://www.cnblogs.com/tiancai/p/9072813.html 这篇文章就很清楚
+
+2节点：一个节点中，1个键值，2条向下链接
+3节点：一个节点中，2个键值，3条向下链接
+4节点：一个节点中，3个键值，4条向下链接(234树中，4点节要分解成更小的节点，实现平衡)  4阶B树
+
+
+
+算法的动态演示
+https://www.cs.usfca.edu/~galles/visualization/Algorithms.html
+
+AVLtree
+https://www.cs.usfca.edu/~galles/visualization/AVLtree.html
+
+
+
+我们讨论的数据结构和算法通常是基于内存的，那么
+
+减少IO -- 平衡多路搜索树 (B-树)
+
+数据库的索引是如何存储在文件中的？
+参考 https://www.cnblogs.com/klb561/p/10666296.html
+
+
+
+更高维的R树
+
+HashMap
+
+参考  
+清华大学邓俊辉老师的数据结构
+
+二叉查找树（BST）实现字典API （里在的递归方法很巧妙）
+参考：
+https://www.cnblogs.com/penghuwan/p/8057482.html#_label10
